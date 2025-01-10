@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "951205237744",
+    "project_id": "show-spotter",
+    "storage_bucket": "show-spotter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951205237744:android:8306d56c5142487fa70335",
+        "android_client_info": {
+          "package_name": "com.example.showspotter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951205237744-6ed2edf7gur2d1sbn1c9s17j2aopj0se.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.showspotter",
+            "certificate_hash": "519b65ea2b7e06a18c6fa89502c9190bd4b66746"
+          }
+        },
+        {
+          "client_id": "951205237744-4b8a001cqhuqvqrkksi67kq2iudsjm0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6OU4uyzeF9kruDOcyzlCVl7-65iv_1lc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951205237744-4b8a001cqhuqvqrkksi67kq2iudsjm0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

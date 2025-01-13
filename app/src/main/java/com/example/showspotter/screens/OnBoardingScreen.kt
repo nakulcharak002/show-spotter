@@ -29,7 +29,7 @@ import com.example.showspotter.R
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun OnBoarding(goToLogInScreen: () -> Unit,goToSignUpScreen:()->Unit) {
+fun OnBoardingScreen(goToLogInScreen: () -> Unit,goToSignUpScreen:()->Unit) {
     val colorList = listOf(Color(0xFF0F2027),Color(0xFF203A43),Color(0xFF2c5364))
         Pager()
         Box(

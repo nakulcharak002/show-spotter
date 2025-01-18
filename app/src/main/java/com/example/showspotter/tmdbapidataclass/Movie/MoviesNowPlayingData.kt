@@ -1,13 +1,18 @@
-package com.example.showspotter.tmdbapidataclass
+package com.example.showspotter.tmdbapidataclass.Movie
 
-data class MoviesData(
+data class MoviesNowPlayingData(
+    val dates: Dates,
     val page: Int,
-    val results: List<MoviesResult>,
+    val results: List<MovieNowPlayingResult>,
     val total_pages: Int,
     val total_results: Int
 )
+data class Dates(
+    val maximum: String,
+    val minimum: String
+)
 
-data class MoviesResult(
+data class MovieNowPlayingResult(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,

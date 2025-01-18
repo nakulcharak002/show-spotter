@@ -1,5 +1,6 @@
 package com.example.showspotter
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -8,18 +9,27 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.example.showspotter.screens.AllVideosScreen
 import com.example.showspotter.screens.HomeScreen
 import com.example.showspotter.screens.LoginScreen
 import com.example.showspotter.screens.MovieDescScreen
+import com.example.showspotter.screens.MovieTabScreen
 import com.example.showspotter.screens.OnBoardingScreen
 import com.example.showspotter.screens.SeriesDescScreen
 import com.example.showspotter.screens.SignUpDetailsScreen
@@ -28,11 +38,11 @@ import com.example.showspotter.tmdbMVVM.Repository
 import com.example.showspotter.tmdbMVVM.ViewModalFactory
 import com.example.showspotter.tmdbMVVM.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.delay
 import kotlin.collections.listOf
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,11 +53,14 @@ class MainActivity : ComponentActivity() {
             val viewModel: ViewModel by viewModels {
                 ViewModalFactory(repository)
             }
-            MyApp(viewModel)
+
+                MyApp(viewModel)
+
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(viewModel: ViewModel) {
 
@@ -70,7 +83,7 @@ fun MyApp(viewModel: ViewModel) {
     if(auth.currentUser!=null){
         startDes = "homescreen"
     }
-    NavHost(navController = navController, startDestination = startDes) {
+    NavHost(navController = navController, startDestination = startDes,modifier = Modifier.fillMaxSize().background(Color.Black)) {
         composable("onboarding") {
             OnBoardingScreen(goToLogInScreen = {
                 navController.navigate("loginscreen")
@@ -113,7 +126,20 @@ fun MyApp(viewModel: ViewModel) {
             })
         }
 
-        composable("homescreen"){
+        composable("homescreen",
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }, animationSpec = tween(200))
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }, animationSpec = tween(200))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(200))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(200))
+            }
+        ){
             HomeScreen(viewModel = viewModel,auth, goToOnBoardingScreen = {
                 navController.navigate("onboarding"){
                     popUpTo(0)
@@ -121,20 +147,54 @@ fun MyApp(viewModel: ViewModel) {
             },
                 goToSeriesDescScreen = {id->
                     navController.navigate("seriesdescscreen/$id")
+
                 },
                 goToMovieDescScreen = {id->
                         navController.navigate("moviedescscreen/$id")
+                },
+                goToHomeScreen = {
+                    val currentDestination = navController.currentBackStackEntry?.destination?.route
+                    if(currentDestination!="homescreen"){
+                        navController.navigate("homescreen")
+                    }
+                },
+                goToMovieTabScreen = {
+                    val currentDestination = navController.currentBackStackEntry?.destination?.route
+                    if(currentDestination!="movietabscreen"){
+                        navController.navigate("movietabscreen")
+                    }
                 })
         }
 
         composable("moviedescscreen/{id}",
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }, animationSpec = tween(200))
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }, animationSpec = tween(200))
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(200))
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(200))
+            },
                 arguments = listOf(
             navArgument("id") { type = NavType.IntType }
-        )){
+        )
+        ){
             val navBackStackEntry = it
             val id= navBackStackEntry.arguments?.getInt("id") ?:-1
-            MovieDescScreen(viewModel=viewModel,id)
+            MovieDescScreen(viewModel=viewModel,id, goToHomeScreen = {
+                navController.popBackStack()
+            },
+                goToAllVideosScreen={
+                    navController.navigate("allvideosscreen/$it")
+                })
         }
+
+
+
         composable("seriesdescscreen/{id}",
             arguments = listOf(
                 navArgument("id") { type = NavType.IntType }
@@ -143,6 +203,37 @@ fun MyApp(viewModel: ViewModel) {
             val navBackStackEntry = it
             val id= navBackStackEntry.arguments?.getInt("id") ?:-1
             SeriesDescScreen(viewModel=viewModel,id)
+        }
+
+        composable("allvideosscreen/{id}",
+            arguments = listOf(
+                navArgument("id") { type = NavType.IntType }
+            )
+            ){
+            val navBackStackEntry = it
+            val id= navBackStackEntry.arguments?.getInt("id") ?:-1
+            AllVideosScreen(viewModel,id, goBack = {
+                navController.popBackStack()
+            })
+        }
+
+        composable("movietabscreen"){
+            MovieTabScreen(viewModel,goToHomeScreen = {
+                val currentDestination = navController.currentBackStackEntry?.destination?.route
+                if(currentDestination!="homescreen"){
+                    navController.navigate("homescreen")
+                }
+            },
+                goToMovieTabScreen = {
+                    val currentDestination = navController.currentBackStackEntry?.destination?.route
+                    if(currentDestination!="movietabscreen"){
+                        navController.navigate("movietabscreen")
+                    }
+                },
+                goToMovieDescScreen = {
+                    id->
+                    navController.navigate("moviedescscreen/$id")
+                })
         }
 
     }

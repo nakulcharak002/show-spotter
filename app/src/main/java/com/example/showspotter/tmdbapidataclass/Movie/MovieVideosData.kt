@@ -1,4 +1,4 @@
-package com.example.showspotter.tmdbapidataclass
+package com.example.showspotter.tmdbapidataclass.Movie
 
 data class MovieVideosData(
     val id: Int,

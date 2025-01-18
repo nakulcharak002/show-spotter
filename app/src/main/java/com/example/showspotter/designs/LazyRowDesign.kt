@@ -1,6 +1,5 @@
 package com.example.showspotter.designs
 
-import android.R.attr.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,106 +32,113 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import com.example.showspotter.tmdbapidataclass.MoviesData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesData
 //import com.example.showspotter.tmdbapidataclass.Result
 import com.example.showspotter.R
-import com.example.showspotter.tmdbapidataclass.MoviesResult
-import com.example.showspotter.tmdbapidataclass.SeriesData
-import com.example.showspotter.tmdbapidataclass.SeriesResult
+import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.tmdbapidataclass.Movie.MovieNowPlayingResult
+import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesResult
+import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesData
+import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesResult
 import kotlin.math.roundToInt
 
 @Composable
-fun LazyRowMoviesDesign(movies: MoviesData?,heading:String,goToMovieDescScreen:(id:Int)->Unit) {
+fun LazyRowMoviesDesign(viewModel: ViewModel, movies: PopularTopRatedMoviesData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
     if(movies != null) {
-        val result: List<MoviesResult> = movies.results
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(350.dp)
-                .padding(start = 7.dp, end = 7.dp,top=30.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color(0xFF2e2d2d)),
-                verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = heading,
-                modifier = Modifier.padding(top = 10.dp, start = 15.dp, bottom = 10.dp),
-                color = Color(0xFFE0E0E0),
-                fontFamily = FontFamily(Font(R.font.interbold)),
-                fontSize = 20.sp
-            )
-            LazyRow(
+        val result: List<PopularTopRatedMoviesResult> = movies.results
+        Box( modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF1f1f1f)) ) {
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start=8.dp)
-                    .background(Color(0xFF2e2d2d))
+                    .height(350.dp)
+                    .padding(start = 7.dp, end = 7.dp, top = 30.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0xFF2e2d2d)),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                items(result) {
-                    Card(
-                        modifier = Modifier
-                            .padding(start = 4.dp, end = 4.dp)
-                            .width(120.dp)
-                            .height(280.dp)
-                            .clickable(
-                                onClick = {
-                                    //when a movie thumbnail got clicked
-                                    //for easy we will only send id to next page
-                                    goToMovieDescScreen(it.id)
-                                }
-                            )
-                    ) {
-                        Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
-                            Image(
-                                painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxWidth(),
-                                contentScale = ContentScale.FillWidth
-                            )
-                        }
-                        Column(
-                            verticalArrangement = Arrangement.SpaceBetween,
+                Text(
+                    text = heading,
+                    modifier = Modifier.padding(top = 10.dp, start = 15.dp, bottom = 10.dp),
+                    color = Color(0xFFE0E0E0),
+                    fontFamily = FontFamily(Font(R.font.interbold)),
+                    fontSize = 20.sp
+                )
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                        .background(Color(0xFF2e2d2d))
+                ) {
+                    items(result) {
+                        Card(
                             modifier = Modifier
-                                .background(Color(0xFF2e2d2d))
-                                .padding(8.dp)
-                                .fillMaxWidth()
-                                .fillMaxHeight()
+                                .padding(start = 4.dp, end = 4.dp)
+                                .width(120.dp)
+                                .height(280.dp)
+                                .clickable(
+                                    onClick = {
+                                        //when a movie thumbnail got clicked
+                                        //for easy we will only send id to next page
+                                        goToMovieDescScreen(it.id)
+                                    }
+                                )
                         ) {
-                            Text(
-                                text = it.title,
+                            Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
+                                Image(
+                                    painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentScale = ContentScale.FillWidth
+                                )
+                            }
+                            Column(
+                                verticalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier
+                                    .background(Color(0xFF2e2d2d))
+                                    .padding(8.dp)
                                     .fillMaxWidth()
-                                    .padding(start = 2.dp, bottom = 10.dp)
-                                    .align(Alignment.Start),
-                                color = Color(0xFFE0E0E0),
-                                fontFamily = FontFamily(Font(R.font.interfont)),
-                                fontSize = 16.sp,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Row(
-                                modifier = Modifier
-                                    .padding(2.dp)
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                    .fillMaxHeight()
                             ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Image(
-                                        painterResource(id = R.drawable.star),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(13.dp)
-                                    )
+                                Text(
+                                    text = it.title,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 2.dp, bottom = 10.dp)
+                                        .align(Alignment.Start),
+                                    color = Color(0xFFE0E0E0),
+                                    fontFamily = FontFamily(Font(R.font.interfont)),
+                                    fontSize = 16.sp,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Row(
+                                    modifier = Modifier
+                                        .padding(2.dp)
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Image(
+                                            painterResource(id = R.drawable.star),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(13.dp)
+                                        )
+                                        Text(
+                                            text = ((it.vote_average * 10).roundToInt() / 10.0).toString(),
+                                            color = Color(0xFF7091C2),
+                                            fontFamily = FontFamily(Font(R.font.robotolight)),
+                                            modifier = Modifier.padding(start = 2.dp)
+                                        )
+                                    }
                                     Text(
-                                        text = ((it.vote_average * 10).roundToInt() / 10.0).toString(),
+                                        text = it.release_date.substring(0, 4),
                                         color = Color(0xFF7091C2),
                                         fontFamily = FontFamily(Font(R.font.robotolight)),
-                                        modifier = Modifier.padding(start = 2.dp)
                                     )
                                 }
-                                Text(
-                                    text = it.release_date.substring(0, 4),
-                                    color = Color(0xFF7091C2),
-                                    fontFamily = FontFamily(Font(R.font.robotolight)),
-                                )
                             }
                         }
                     }
@@ -142,9 +149,114 @@ fun LazyRowMoviesDesign(movies: MoviesData?,heading:String,goToMovieDescScreen:(
 }
 
 @Composable
-fun LazyRowSeriesDesign(movies: SeriesData?,heading: String,goToSeriesDescScreen:(id:Int)->Unit) {
+fun LazyRowNowPlayingMoviesDesign(viewModel: ViewModel, movies: MoviesNowPlayingData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
     if(movies != null) {
-        val result: List<SeriesResult> = movies.results
+        val result: List<MovieNowPlayingResult> = movies.results
+        Box( modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF1f1f1f)) ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(350.dp)
+                    .padding(start = 7.dp, end = 7.dp, top = 30.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0xFF2e2d2d)),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = heading,
+                    modifier = Modifier.padding(top = 10.dp, start = 15.dp, bottom = 10.dp),
+                    color = Color(0xFFE0E0E0),
+                    fontFamily = FontFamily(Font(R.font.interbold)),
+                    fontSize = 20.sp
+                )
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp)
+                        .background(Color(0xFF2e2d2d))
+                ) {
+                    items(result) {
+                        Card(
+                            modifier = Modifier
+                                .padding(start = 4.dp, end = 4.dp)
+                                .width(120.dp)
+                                .height(280.dp)
+                                .clickable(
+                                    onClick = {
+                                        //when a movie thumbnail got clicked
+                                        //for easy we will only send id to next page
+                                        goToMovieDescScreen(it.id)
+                                    }
+                                )
+                        ) {
+                            Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
+                                Image(
+                                    painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentScale = ContentScale.FillWidth
+                                )
+                            }
+                            Column(
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier
+                                    .background(Color(0xFF2e2d2d))
+                                    .padding(8.dp)
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                            ) {
+                                Text(
+                                    text = it.title,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 2.dp, bottom = 10.dp)
+                                        .align(Alignment.Start),
+                                    color = Color(0xFFE0E0E0),
+                                    fontFamily = FontFamily(Font(R.font.interfont)),
+                                    fontSize = 16.sp,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Row(
+                                    modifier = Modifier
+                                        .padding(2.dp)
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Image(
+                                            painterResource(id = R.drawable.star),
+                                            contentDescription = null,
+                                            modifier = Modifier.size(13.dp)
+                                        )
+                                        Text(
+                                            text = ((it.vote_average * 10).roundToInt() / 10.0).toString(),
+                                            color = Color(0xFF7091C2),
+                                            fontFamily = FontFamily(Font(R.font.robotolight)),
+                                            modifier = Modifier.padding(start = 2.dp)
+                                        )
+                                    }
+                                    Text(
+                                        text = it.release_date.substring(0, 4),
+                                        color = Color(0xFF7091C2),
+                                        fontFamily = FontFamily(Font(R.font.robotolight)),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LazyRowSeriesDesign(viewModel: ViewModel,movies: PopularSeriesData?, heading: String, goToSeriesDescScreen:(id:Int)->Unit) {
+    if(movies != null) {
+        val result: List<PopularSeriesResult> = movies.results
         Column(
             modifier = Modifier
                 .fillMaxWidth()

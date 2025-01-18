@@ -129,6 +129,7 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToHomeScreen:()->Unit,goToAl
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom=10.dp)
                         .height(200.dp)
                 ) {
                     if (trailer != null) {

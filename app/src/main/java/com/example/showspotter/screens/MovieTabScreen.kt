@@ -20,6 +20,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +38,24 @@ import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
 import com.example.showspotter.designs.LazyRowNowPlayingMoviesDesign
 import com.example.showspotter.tmdbMVVM.ViewModel
+import kotlinx.coroutines.flow.compose
 
 @Composable
-fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTabScreen: () -> Unit,goToMovieDescScreen:(id:Int)->Unit){
+fun MovieTabScreen(
+    viewModel: ViewModel,
+    goToHomeScreen: () -> Unit,
+    goToMovieTabScreen: () -> Unit,
+    goToMovieDescScreen: (id: Int) -> Unit,
+    goToSeriesTabScreen:()->Unit,
+    goToSearchScreen:()->Unit
+) {
 //    viewModel.getPopularMovies() // dont have to call popular movies as it is colled in home screen already
+    var timeWindow by remember{
+        mutableStateOf("week")
+    }
+    if(viewModel.getPopularMovies.collectAsState().value==null) {
+        viewModel.getPopularMovies()
+    }
 
     if(viewModel.getTopRatedMovies.collectAsState().value==null) {
         viewModel.getTopRatedMovies()
@@ -48,10 +66,14 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
     if(viewModel.getUpcomingMovies.collectAsState().value==null) {
         viewModel.getUpcomingMovies()
     }
+    if(viewModel.getTrendingMovies.collectAsState().value==null){
+        viewModel.getTrendingMovies(timeWindow)
+    }
     val popularMovies = viewModel.getPopularMovies.collectAsState().value
     val topRatedMovies = viewModel.getTopRatedMovies.collectAsState().value
     val nowPlayingMovies = viewModel.getNowPlayingMovies.collectAsState().value
     val upcomingMovies = viewModel.getUpcomingMovies.collectAsState().value
+    val trendingMovies = viewModel.getTrendingMovies.collectAsState().value
 
     Box( modifier = Modifier
         .fillMaxSize()
@@ -106,6 +128,11 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
                         .background(Color(0xFF121212), shape = CircleShape)
                         .clip(CircleShape)
                         .padding(8.dp)
+                        .clickable(
+                            onClick = {
+                                goToSearchScreen()
+                            }
+                        )
                 )
             }
                 // movies list
@@ -119,7 +146,7 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowNowPlayingMoviesDesign(viewModel,nowPlayingMovies, "Now Playing", goToMovieDescScreen)
+                LazyRowNowPlayingMoviesDesign(nowPlayingMovies, "Now Playing", goToMovieDescScreen)
             }
             if (topRatedMovies == null) {
                 Box(
@@ -130,7 +157,7 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowMoviesDesign(viewModel,topRatedMovies, "Top Rated Movies", goToMovieDescScreen)
+                LazyRowMoviesDesign(topRatedMovies, "Top Rated Movies", goToMovieDescScreen)
             }
 
             if (popularMovies == null) {
@@ -142,7 +169,7 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowMoviesDesign(viewModel,popularMovies, "Popular Movies", goToMovieDescScreen)
+                LazyRowMoviesDesign(popularMovies, "Popular Movies", goToMovieDescScreen)
             }
 
             if (upcomingMovies == null) {
@@ -154,12 +181,22 @@ fun MovieTabScreen(viewModel: ViewModel,goToHomeScreen: () -> Unit, goToMovieTab
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowNowPlayingMoviesDesign(viewModel,upcomingMovies, "Upcoming Movies", goToMovieDescScreen)
+                LazyRowNowPlayingMoviesDesign(upcomingMovies, "Upcoming Movies", goToMovieDescScreen)
+            }
+
+            if (trendingMovies == null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(280.dp), contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                LazyRowMoviesDesign(trendingMovies, "Trending Movies", goToMovieDescScreen)
                 Spacer(modifier = Modifier.padding(bottom = 100.dp))
             }
         }
-
     }
-
-    BottomNavigatorDesign(goToHomeScreen, goToMovieTabScreen)
+    BottomNavigatorDesign(goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
 }

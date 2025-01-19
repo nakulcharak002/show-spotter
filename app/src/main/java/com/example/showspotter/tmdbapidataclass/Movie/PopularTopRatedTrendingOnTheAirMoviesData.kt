@@ -1,13 +1,13 @@
 package com.example.showspotter.tmdbapidataclass.Movie
 
-data class PopularTopRatedMoviesData(
+data class PopularTopRatedTrendingOnTheAirMoviesData(
     val page: Int,
-    val results: List<PopularTopRatedMoviesResult>,
+    val results: List<PopularTopRatedTrendingMoviesResult>,
     val total_pages: Int,
     val total_results: Int
 )
 
-data class PopularTopRatedMoviesResult(
+data class PopularTopRatedTrendingMoviesResult(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,

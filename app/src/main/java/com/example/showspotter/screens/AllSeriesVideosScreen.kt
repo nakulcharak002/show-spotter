@@ -36,9 +36,9 @@ import com.example.showspotter.tmdbMVVM.ViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AllVideosScreen(viewModel: ViewModel, id:Int,goBack:()->Unit) {
-    viewModel.getMovieVideosById(id)
-    val movieVideos = viewModel.getMovieVideosById.collectAsState().value
+fun AllSeriesVideosScreen(viewModel: ViewModel, id:Int, goBack:()->Unit) {
+    viewModel.getSeriesVideosById(id)
+    val seriesVideos = viewModel.getSeriesVideosById.collectAsState().value
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,29 +77,29 @@ fun AllVideosScreen(viewModel: ViewModel, id:Int,goBack:()->Unit) {
                 //more content on top Row
             }
         }
-            if (movieVideos!= null) {
-                val videos = movieVideos.results.filter {
-                    it.site == "YouTube"
-                }
-                LazyColumn(modifier = Modifier.padding(top=100.dp)) {
-                    items(videos) {
-                             Column (modifier = Modifier.padding(horizontal = 10.dp)) {
-                                 YouTubePlayerAllVideos(videoId = it.key)
-                                 Text(text = it.name, modifier = Modifier
-                                         .padding(start = 10.dp, top = 5.dp)
-                                     .height(35.dp), color = Color(0xFFE0E0E0),
-                                 maxLines = 2,
-                                 overflow = TextOverflow.Ellipsis,
-                                 fontFamily = FontFamily(Font(R.font.interbold)))
-                                 Text(text = formatTimestamp(it.published_at), modifier = Modifier
-                                     .padding(start = 10.dp, bottom = 5.dp)
-                                     .height(30.dp),
-                                     maxLines = 2,
-                                     overflow = TextOverflow.Ellipsis,
-                                     color = Color(0xFF5077B3))
-                             }
+        if (seriesVideos!= null) {
+            val videos = seriesVideos.results.filter {
+                it.site == "YouTube"
+            }
+            LazyColumn(modifier = Modifier.padding(top=100.dp)) {
+                items(videos) {
+                    Column (modifier = Modifier.padding(horizontal = 10.dp)) {
+                        YouTubePlayerAllVideos(videoId = it.key)
+                        Text(text = it.name, modifier = Modifier
+                            .padding(start = 10.dp, top = 5.dp)
+                            .height(35.dp), color = Color(0xFFE0E0E0),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            fontFamily = FontFamily(Font(R.font.interbold)))
+                        Text(text = formatTimestamp(it.published_at), modifier = Modifier
+                            .padding(start = 10.dp, bottom = 5.dp)
+                            .height(30.dp),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color(0xFF5077B3))
                     }
                 }
             }
         }
+    }
 }

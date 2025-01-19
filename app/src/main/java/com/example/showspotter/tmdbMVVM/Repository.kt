@@ -6,15 +6,18 @@ import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
 import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
-import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
-import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesData
+import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
+import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
+import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
+import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
 
 class Repository {
     private val apiServices = RetrofitBuilder.getApi
 
-    suspend fun getPopularMovies(): PopularTopRatedMoviesData? {
+    suspend fun getPopularMovies(): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getPopularMovies(
                 accept = "application/json",
@@ -28,7 +31,7 @@ class Repository {
         }
     }
 
-    suspend fun getPopularSeries(): PopularSeriesData? {
+    suspend fun getPopularSeries(): PopularTopRatedTrendingOnTheAirSeriesData? {
         return try {
             val movies = apiServices.getPopularSeries(
                 accept = "application/json",
@@ -117,7 +120,7 @@ class Repository {
         }
     }
 
-    suspend fun getTopRatedMovies(): PopularTopRatedMoviesData? {
+    suspend fun getTopRatedMovies(): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getTopRatedMovies(
                 accept = "application/json",
@@ -159,5 +162,135 @@ class Repository {
         }
     }
 
+    suspend fun getSeriesDetailsById(id:Int): SeriesDetailsOneData? {
+        return try {
+            val movies = apiServices.getSeriesDetailsById(
+                seriesId = id,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
 
+    suspend fun getSeriesVideosById(id:Int): SeriesVideosOneData? {
+        return try {
+            val movies = apiServices.getSeriesVideosById(
+                seriesId = id,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getSeriesCreditsById(id:Int): SeriesCreditsOneData? {
+        return try {
+            val movies = apiServices.getSeriesCreditsById(
+                seriesId = id,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+    suspend fun getTrendingMovies(timeWindow:String): PopularTopRatedTrendingOnTheAirMoviesData? {
+        return try {
+            val movies = apiServices.getTrendingMovies(
+                timeWindow = timeWindow,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getTrendingSeries(timeWindow:String): PopularTopRatedTrendingOnTheAirSeriesData? {
+        return try {
+            val movies = apiServices.getTrendingSeries(
+                timeWindow = timeWindow,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getOnTheAirSeries(): PopularTopRatedTrendingOnTheAirSeriesData? {
+        return try {
+            val movies = apiServices.getOnTheAirSeries(
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getTopRatedSeries(): PopularTopRatedTrendingOnTheAirSeriesData? {
+        return try {
+            val movies = apiServices.getTopRatedSeries(
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getSearchedMovie(query:String): PopularTopRatedTrendingOnTheAirMoviesData? {
+        return try {
+            val movies = apiServices.getSearchedMovie(
+                query = query,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
+
+    suspend fun getSearchedSeries(query: String): PopularTopRatedTrendingOnTheAirSeriesData? {
+        return try {
+            val movies = apiServices.getSearchedSeries(
+                query = query,
+                accept = "application/json",
+                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+            )
+            Log.d("Repository", "Movies fetched successfully:  movies")
+            movies
+        } catch (e: Exception) {
+            Log.e("Repository", "Error fetching Movie", e)
+            null // Return null or handle it differently based on your use case
+        }
+    }
 }

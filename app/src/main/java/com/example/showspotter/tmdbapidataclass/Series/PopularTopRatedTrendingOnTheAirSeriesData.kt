@@ -1,6 +1,6 @@
 package com.example.showspotter.tmdbapidataclass.Series
 
-data class PopularSeriesData(
+data class PopularTopRatedTrendingOnTheAirSeriesData(
     val page: Int,
     val results: List<PopularSeriesResult>,
     val total_pages: Int,

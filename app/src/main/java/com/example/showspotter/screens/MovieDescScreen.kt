@@ -67,7 +67,7 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MovieDescScreen(viewModel: ViewModel, id: Int,goToHomeScreen:()->Unit,goToAllVideosScreen:(Int)->Unit) {
+fun MovieDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAllMovieVideosScreen:(Int)->Unit) {
     val context = LocalContext.current
     viewModel.getMovieDetailById(id)
     val movieDetail: MovieDetailsData? = viewModel.getMovieDetailsById.collectAsState().value
@@ -112,7 +112,7 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToHomeScreen:()->Unit,goToAl
                             .size(16.dp)
                             .clickable(
                                 onClick = {
-                                    goToHomeScreen()
+                                    goToBackStack()
                                 }
                             )
                     )
@@ -152,13 +152,12 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToHomeScreen:()->Unit,goToAl
                             ),
 
                             )
-
-                        DotPageIndicator(
-                            totalDots = trailer.size,
-                            selectedIndex = pagerState.currentPage
-                        )
                     }
                 }
+                DotPageIndicator(
+                    totalDots = trailer?.size ?: 0,
+                    selectedIndex = pagerState.currentPage
+                )
 
 
                 Text(
@@ -526,7 +525,7 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToHomeScreen:()->Unit,goToAl
                                 .clickable(
                                     onClick = {
                                         //show all videos
-                                        goToAllVideosScreen(id)
+                                        goToAllMovieVideosScreen(id)
                                     }
                                 ),
                             color = Color.White,

@@ -32,21 +32,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
 //import com.example.showspotter.tmdbapidataclass.Result
 import com.example.showspotter.R
 import com.example.showspotter.tmdbMVVM.ViewModel
 import com.example.showspotter.tmdbapidataclass.Movie.MovieNowPlayingResult
 import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
-import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesResult
-import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingMoviesResult
+//import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesResult
+import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesResult
 import kotlin.math.roundToInt
 
 @Composable
-fun LazyRowMoviesDesign(viewModel: ViewModel, movies: PopularTopRatedMoviesData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
+fun LazyRowMoviesDesign(movies: PopularTopRatedTrendingOnTheAirMoviesData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
     if(movies != null) {
-        val result: List<PopularTopRatedMoviesResult> = movies.results
+        val result: List<PopularTopRatedTrendingMoviesResult> = movies.results
         Box( modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF1f1f1f)) ) {
@@ -149,7 +150,7 @@ fun LazyRowMoviesDesign(viewModel: ViewModel, movies: PopularTopRatedMoviesData?
 }
 
 @Composable
-fun LazyRowNowPlayingMoviesDesign(viewModel: ViewModel, movies: MoviesNowPlayingData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
+fun LazyRowNowPlayingMoviesDesign(movies: MoviesNowPlayingData?, heading:String, goToMovieDescScreen:(id:Int)->Unit) {
     if(movies != null) {
         val result: List<MovieNowPlayingResult> = movies.results
         Box( modifier = Modifier
@@ -254,7 +255,7 @@ fun LazyRowNowPlayingMoviesDesign(viewModel: ViewModel, movies: MoviesNowPlaying
 }
 
 @Composable
-fun LazyRowSeriesDesign(viewModel: ViewModel,movies: PopularSeriesData?, heading: String, goToSeriesDescScreen:(id:Int)->Unit) {
+fun LazyRowSeriesDesign(movies: PopularTopRatedTrendingOnTheAirSeriesData?, heading: String, goToSeriesDescScreen:(id:Int)->Unit) {
     if(movies != null) {
         val result: List<PopularSeriesResult> = movies.results
         Column(

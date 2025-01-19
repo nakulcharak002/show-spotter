@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.showspotter.R
 
 @Composable
-fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit) {
+fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit,goToSeriesTabScreen:()->Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd
@@ -92,7 +92,7 @@ fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit) {
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxHeight().clickable(
                     onClick = {
-
+                                goToSeriesTabScreen()
                     }
                 )
             ) {
@@ -105,29 +105,6 @@ fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit) {
                 )
                 Text(
                     "Tv Series",
-                    color = Color(0xFFE0E0E0),
-                    fontFamily = FontFamily(Font(R.font.interbold)),
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().clickable(
-                    onClick = {
-
-                    }
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.people), contentDescription = "home",
-                    modifier = Modifier
-                        .size(25.dp)
-
-                )
-                Text(
-                    "People",
                     color = Color(0xFFE0E0E0),
                     fontFamily = FontFamily(Font(R.font.interbold)),
                     fontSize = 10.sp,

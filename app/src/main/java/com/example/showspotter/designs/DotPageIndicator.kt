@@ -20,7 +20,7 @@ fun DotPageIndicator(totalDots: Int, selectedIndex: Int) {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(10.dp)
     ) {
         for (index in 0 until totalDots) {
             val color = if (index == selectedIndex) Color.White else Color.Gray

@@ -4,6 +4,10 @@
 
 ---
 
+## Designs
+![Alt text](app/src/main/res/drawable/app_interface.png)
+
+
 ## Features
 
 - **Movie Discovery:**

@@ -113,7 +113,6 @@ fun LoginScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,openHome
                                         }
                                         else{
                                             databaseReference.child("users").child(auth.currentUser!!.uid).child("username").setValue(auth.currentUser!!.displayName)
-                                            Toast.makeText(context, "New User",Toast.LENGTH_SHORT).show()
                                         }
                                         openHomeScreen()
                                     }

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
@@ -44,6 +45,7 @@ import kotlin.random.Random
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: ViewModel,
     auth: FirebaseAuth,
     goToOnBoardingScreen:()->Unit,
@@ -209,6 +211,6 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.padding(top=100.dp))
             }
         }
-        BottomNavigatorDesign(goToHomeScreen,goToMovieTabScreen, goToSeriesTabScreen)
+        BottomNavigatorDesign(navController,goToHomeScreen,goToMovieTabScreen, goToSeriesTabScreen)
     }
 }

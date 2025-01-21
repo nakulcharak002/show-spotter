@@ -20,10 +20,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,14 +33,15 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
 import com.example.showspotter.tmdbMVVM.ViewModel
-import kotlinx.coroutines.flow.compose
 
 @Composable
 fun MovieTabScreen(
+    navController: NavController,
     viewModel: ViewModel,
     goToHomeScreen: () -> Unit,
     goToMovieTabScreen: () -> Unit,
@@ -198,5 +199,5 @@ fun MovieTabScreen(
             }
         }
     }
-    BottomNavigatorDesign(goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
+    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
 }

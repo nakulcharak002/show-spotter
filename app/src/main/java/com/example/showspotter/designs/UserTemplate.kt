@@ -78,6 +78,7 @@ fun UserTemplate(viewModel: ViewModel,isMovie: Boolean, id:Int, auth: FirebaseAu
             }
         }
     }
+
     var watchbg: Color = Color.Transparent
         if(watchlist) {
             watchbg = Color(0xFF103661)
@@ -212,9 +213,10 @@ fun UserTemplate(viewModel: ViewModel,isMovie: Boolean, id:Int, auth: FirebaseAu
                             databaseReference.child("users").child(auth.currentUser?.uid ?: "NA")
                                 .child("watchlist").child(dataType)
                         dbRef.child(id.toString()).removeValue()
+                        Toast.makeText(context, "Removed from watchlist", Toast.LENGTH_SHORT).show()
+
                     }
 
-                    Toast.makeText(context, "Removed from watchlist", Toast.LENGTH_SHORT).show()
 
                 }),
             horizontalAlignment = Alignment.CenterHorizontally,

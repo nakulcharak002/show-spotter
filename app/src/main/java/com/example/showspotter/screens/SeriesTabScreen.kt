@@ -33,15 +33,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
-import com.example.showspotter.designs.LazyRowMoviesDesign
 import com.example.showspotter.designs.LazyRowSeriesDesign
 import com.example.showspotter.tmdbMVVM.ViewModel
 import kotlin.Unit
 
 @Composable
 fun SeriesTabScreen(
+    navController: NavController,
     viewModel: ViewModel,
     goToHomeScreen: () -> Unit,
     goToMovieTabScreen: () -> Unit,
@@ -184,5 +185,5 @@ fun SeriesTabScreen(
 
         }
     }
-    BottomNavigatorDesign(goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
+    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
 }

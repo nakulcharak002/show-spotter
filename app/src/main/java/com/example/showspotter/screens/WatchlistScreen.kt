@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.example.showspotter.R
 import com.example.showspotter.designs.LazyRowFavouriteWatchlistSeriesDesign
 import com.example.showspotter.designs.LazyRowMoviesFavouriteWatchListDesign
-import com.example.showspotter.tmdbMVVM.ViewModel
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.google.firebase.auth.FirebaseAuth
@@ -69,8 +68,6 @@ fun WatchlistScreen(auth: FirebaseAuth, databaseReference: DatabaseReference, go
                     watchMovieList.clear()
                     watchMovieList.addAll(favMovieDetailsList)
                     // Show success message
-                } else {
-                    Toast.makeText(context, "No favorite movies found", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(context, "Failed to fetch favorite movies", Toast.LENGTH_SHORT).show()

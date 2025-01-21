@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,10 +25,11 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.showspotter.R
 
 @Composable
-fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit,goToSeriesTabScreen:()->Unit) {
+fun BottomNavigatorDesign(navController: NavController,goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit,goToSeriesTabScreen:()->Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd
@@ -35,90 +38,210 @@ fun BottomNavigatorDesign(goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit,go
             modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
-                .background(Color(0xFF212121)).clickable(
+                .background(Color(0xFF212121))
+                .clickable(
                     onClick = {},
                     enabled = false
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().clickable(
-                    onClick = {
-                        //home
-                        goToHomeScreen()
+            if(navController.currentDestination?.route == "homescreen"){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color(0xFF72B2D5), shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
+                                //home
+                                goToHomeScreen()
 
-                    }
-                )
-            ) {
-                Image(painter = painterResource(id = R.drawable.home), contentDescription = "home")
-                Text(
-                    "Home",
-                    color = Color(0xFFE0E0E0),
-                    fontFamily = FontFamily(Font(R.font.interbold)),
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home),
+                        contentDescription = "home"
+                    )
+                    Text(
+                        "Home",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
             }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().clickable(
-                    onClick = {
+            else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
+                                //home
+                                goToHomeScreen()
+
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home),
+                        contentDescription = "home"
+                    )
+                    Text(
+                        "Home",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
+            }
+            if(navController.currentDestination?.route == "movietabscreen"){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color(0xFF72B2D5), shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
                                 //moviebottomscreen
-                        goToMovieTabScreen()
-                    }
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.clapperboard),
-                    contentDescription = "home",
-                    modifier = Modifier
-                        .size(25.dp)
-                )
-                Text(
-                    "Movies",
-                    color = Color(0xFFE0E0E0),
-                    fontFamily = FontFamily(Font(R.font.interbold)),
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
+                                goToMovieTabScreen()
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.clapperboard),
+                        contentDescription = "home",
+                        modifier = Modifier
+                            .size(25.dp)
+                    )
+                    Text(
+                        "Movies",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
             }
-
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().clickable(
-                    onClick = {
+            else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
+                                //moviebottomscreen
+                                goToMovieTabScreen()
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.clapperboard),
+                        contentDescription = "home",
+                        modifier = Modifier
+                            .size(25.dp)
+                    )
+                    Text(
+                        "Movies",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
+            }
+            if(navController.currentDestination?.route == "seriestabscreen"){
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color(0xFF72B2D5), shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
                                 goToSeriesTabScreen()
-                    }
-                )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.television),
-                    contentDescription = "home",
-                    modifier = Modifier
-                        .size(25.dp)
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.television),
+                        contentDescription = "home",
+                        modifier = Modifier
+                            .size(25.dp)
 
-                )
-                Text(
-                    "Tv Series",
-                    color = Color(0xFFE0E0E0),
-                    fontFamily = FontFamily(Font(R.font.interbold)),
-                    fontSize = 10.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
+                    )
+                    Text(
+                        "Tv Series",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
+            }
+            else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 10.dp)
+                        .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                        .width(60.dp)
+                        .clickable(
+                            onClick = {
+                                goToSeriesTabScreen()
+                            }
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.television),
+                        contentDescription = "home",
+                        modifier = Modifier
+                            .size(25.dp)
+
+                    )
+                    Text(
+                        "Tv Series",
+                        color = Color(0xFFE0E0E0),
+                        fontFamily = FontFamily(Font(R.font.interbold)),
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                }
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight().clickable(
-                    onClick = {
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 10.dp)
+                    .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp).clickable(
+                        onClick = {
 
-                    }
-                )
+                        }
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.settings),

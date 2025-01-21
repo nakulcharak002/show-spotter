@@ -33,17 +33,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
-//import com.example.showspotter.tmdbapidataclass.Result
 import com.example.showspotter.R
-import com.example.showspotter.tmdbMVVM.ViewModel
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
-import com.example.showspotter.tmdbapidataclass.Movie.MovieNowPlayingResult
-import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
 import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingMoviesResult
-//import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedMoviesResult
-import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
+import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
 import com.example.showspotter.tmdbapidataclass.Series.PopularSeriesResult
+import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import kotlin.math.roundToInt
 
@@ -284,7 +279,7 @@ fun LazyRowMoviesFavouriteWatchListDesign(movies: List<MovieDetailsData?>, headi
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "No Favourite Movies",
+                    text = "No Movies Found",
                     modifier = Modifier.padding(top = 10.dp, start = 15.dp, bottom = 10.dp),
                     color = Color(0xFFE0E0E0),
                     fontFamily = FontFamily(Font(R.font.interbold)),
@@ -337,7 +332,7 @@ fun LazyRowSeriesDesign(movies: PopularTopRatedTrendingOnTheAirSeriesData?, head
                                 }
                             )
                     ) {
-                        if (it.poster_path != null) {
+                        if (true) {
                             Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
                                 Image(
                                     painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),
@@ -403,8 +398,8 @@ fun LazyRowSeriesDesign(movies: PopularTopRatedTrendingOnTheAirSeriesData?, head
 }
 
 @Composable
-fun LazyRowFavouriteWatchlistSeriesDesign(movies: List<SeriesDetailsOneData?>?, heading: String, goToSeriesDescScreen:(id:Int)->Unit) {
-    if (movies != null) {
+fun LazyRowFavouriteWatchlistSeriesDesign(movies: List<SeriesDetailsOneData?>, heading: String, goToSeriesDescScreen:(id:Int)->Unit) {
+    if (movies.isNotEmpty()) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -442,7 +437,7 @@ fun LazyRowFavouriteWatchlistSeriesDesign(movies: List<SeriesDetailsOneData?>?, 
                                     }
                                 )
                         ) {
-                            if (it.poster_path != null) {
+                            if (true) {
                                 Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
                                     Image(
                                         painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),
@@ -521,7 +516,7 @@ fun LazyRowFavouriteWatchlistSeriesDesign(movies: List<SeriesDetailsOneData?>?, 
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "No Favourite Series",
+                    text = "No Series Found",
                     modifier = Modifier.padding(top = 10.dp, start = 15.dp, bottom = 10.dp),
                     color = Color(0xFFE0E0E0),
                     fontFamily = FontFamily(Font(R.font.interbold)),

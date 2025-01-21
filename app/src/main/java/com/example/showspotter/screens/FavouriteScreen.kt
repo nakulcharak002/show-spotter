@@ -69,8 +69,6 @@ fun FavouriteScreen(viewModel: ViewModel, auth: FirebaseAuth, databaseReference:
                     favMovieList.clear()
                     favMovieList.addAll(favMovieDetailsList)
                     // Show success message
-                } else {
-                    Toast.makeText(context, "No favorite movies found", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(context, "Failed to fetch favorite movies", Toast.LENGTH_SHORT).show()
@@ -108,8 +106,6 @@ fun FavouriteScreen(viewModel: ViewModel, auth: FirebaseAuth, databaseReference:
                     favSeriesList.clear()
                     favSeriesList.addAll(favSeriesDetailsList)
                     // Show success message
-                } else {
-                    Toast.makeText(context, "No favorite movies found", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(context, "Failed to fetch favorite movies", Toast.LENGTH_SHORT).show()

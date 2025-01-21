@@ -160,7 +160,7 @@ fun MyApp(viewModel: ViewModel) {
                     slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(200))
                 }
             ) {
-                HomeScreen(viewModel = viewModel, auth, goToOnBoardingScreen = {
+                HomeScreen(navController,viewModel = viewModel, auth, goToOnBoardingScreen = {
                     navController.navigate("onboarding") {
                         popUpTo(0)
                     }
@@ -274,7 +274,7 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("movietabscreen") {
-                MovieTabScreen(viewModel, goToHomeScreen = {
+                MovieTabScreen(navController,viewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
                         navController.navigate("homescreen")
@@ -302,7 +302,7 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("seriestabscreen") {
-                SeriesTabScreen(viewModel, goToHomeScreen = {
+                SeriesTabScreen(navController,viewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
                         navController.navigate("homescreen")

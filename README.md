@@ -96,7 +96,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 For any queries or suggestions, feel free to reach out:
 
 - **GitHub:** [ivikashgorai](https://github.com/ivikashgorai)
-- **Email:** [your_email@example.com]
+- **Email:** [vikashwork321@gmail.com]
 
 ---
 

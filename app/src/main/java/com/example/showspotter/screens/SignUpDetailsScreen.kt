@@ -1,5 +1,6 @@
 package com.example.showspotter.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +22,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -31,10 +34,15 @@ import androidx.compose.ui.unit.sp
 import com.example.showspotter.authorization.SignUpUser
 import com.google.firebase.auth.FirebaseAuth
 import com.example.showspotter.R
+import com.google.firebase.database.DatabaseReference
 
 @Composable
-fun SignUpDetailsScreen(auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,goToBackSignUpScreen:()->Unit) {
+fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,goToBackSignUpScreen:()->Unit) {
     val context = LocalContext.current
+
+    var username by remember {
+        mutableStateOf("")
+    }
     var email by remember {
         mutableStateOf("")
     }
@@ -48,7 +56,11 @@ fun SignUpDetailsScreen(auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,g
     Box(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(R.drawable.image10), contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop)
+            contentScale = ContentScale.Crop,
+            colorFilter = ColorFilter.tint(
+                color = Color.Black.copy(alpha = 0.7f),
+                blendMode = BlendMode.Multiply
+            ))
 
         Column(
             modifier = Modifier
@@ -61,6 +73,30 @@ fun SignUpDetailsScreen(auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,g
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(start = 30.dp),
                 color = Color.White
+            )
+
+            OutlinedTextField(
+                value = username,
+                onValueChange = {
+                    username = it
+                },
+                label = {
+                    Text("Username")
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    unfocusedLabelColor = Color.White,
+                    focusedLabelColor = Color.White
+                ),
+                modifier = Modifier.padding(start = 20.dp)
+            )
+            HorizontalDivider(
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 15.dp),
+                thickness = 1.dp,
+                color = Color.Gray
             )
 
             OutlinedTextField(
@@ -138,7 +174,23 @@ fun SignUpDetailsScreen(auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,g
 
             Button(
                 onClick = {
-                    SignUpUser(auth, email, password, context, signSuccessGoToLoginScreen)
+                    if(username.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && password==confirmPassword) {
+                        SignUpUser(
+                            databaseReference,
+                            auth,
+                            username,
+                            email,
+                            password,
+                            context,
+                            signSuccessGoToLoginScreen
+                        )
+                    }
+                    else if(confirmPassword!=password){
+                        Toast.makeText(context,"confirm password not matched with password",Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show()
+                    }
                 },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier

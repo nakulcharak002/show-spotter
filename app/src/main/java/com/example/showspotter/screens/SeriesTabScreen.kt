@@ -36,9 +36,9 @@ import androidx.compose.ui.unit.sp
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
-import com.example.showspotter.designs.LazyRowNowPlayingMoviesDesign
 import com.example.showspotter.designs.LazyRowSeriesDesign
 import com.example.showspotter.tmdbMVVM.ViewModel
+import kotlin.Unit
 
 @Composable
 fun SeriesTabScreen(
@@ -47,7 +47,8 @@ fun SeriesTabScreen(
     goToMovieTabScreen: () -> Unit,
     goToSeriesTabScreen: () -> Unit,
     goToSeriesDescScreen: (id: Int) -> Unit,
-    goToSearchScreen:()->Unit
+    goToSearchScreen:()->Unit,
+    goToProfileScreen:()->Unit
 ) {
     var timeWindow by remember{
         mutableStateOf("week")
@@ -97,7 +98,7 @@ fun SeriesTabScreen(
                         .padding(8.dp)
                         .clip(CircleShape)
                         .clickable(onClick = {
-
+                                goToProfileScreen()
                         })
                 )
 

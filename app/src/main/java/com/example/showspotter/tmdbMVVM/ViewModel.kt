@@ -8,12 +8,15 @@ import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
 import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
 import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
-import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
 import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -29,8 +32,8 @@ class ViewModel(
     var getMovieReleaseDatesAndCertificationsById = MutableStateFlow<MovieReleaseDateAndCertification?>(null)
     val getMovieLinksById = MutableStateFlow<MovieLinks?>(null)
     val getTopRatedMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
-    val getNowPlayingMovies = MutableStateFlow<MoviesNowPlayingData?>(null)
-    val getUpcomingMovies = MutableStateFlow<MoviesNowPlayingData?>(null)
+    val getNowPlayingMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
+    val getUpcomingMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
     val getTrendingMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
     val getSeriesDetailsById = MutableStateFlow<SeriesDetailsOneData?>(null)
     val getSeriesVideosById = MutableStateFlow<SeriesVideosOneData?>(null)
@@ -40,7 +43,6 @@ class ViewModel(
     val getTopRatedSeries = MutableStateFlow<PopularTopRatedTrendingOnTheAirSeriesData?>(null)
     val getSearchedMovie = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
     val getSearchedSeries = MutableStateFlow<PopularTopRatedTrendingOnTheAirSeriesData?>(null)
-
     init{
         getPopularMovies()
         getPopularSeries()
@@ -174,5 +176,4 @@ class ViewModel(
             getSearchedSeries.value = movie
         }
     }
-
 }

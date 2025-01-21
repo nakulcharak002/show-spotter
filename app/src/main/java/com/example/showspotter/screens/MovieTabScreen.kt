@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
-import com.example.showspotter.designs.LazyRowNowPlayingMoviesDesign
 import com.example.showspotter.tmdbMVVM.ViewModel
 import kotlinx.coroutines.flow.compose
 
@@ -47,7 +46,8 @@ fun MovieTabScreen(
     goToMovieTabScreen: () -> Unit,
     goToMovieDescScreen: (id: Int) -> Unit,
     goToSeriesTabScreen:()->Unit,
-    goToSearchScreen:()->Unit
+    goToSearchScreen:()->Unit,
+    goToProfileScreen:()->Unit
 ) {
 //    viewModel.getPopularMovies() // dont have to call popular movies as it is colled in home screen already
     var timeWindow by remember{
@@ -102,7 +102,7 @@ fun MovieTabScreen(
                         .padding(8.dp)
                         .clip(CircleShape)
                         .clickable(onClick = {
-
+                                goToProfileScreen()
                         })
                 )
 
@@ -146,7 +146,7 @@ fun MovieTabScreen(
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowNowPlayingMoviesDesign(nowPlayingMovies, "Now Playing", goToMovieDescScreen)
+                LazyRowMoviesDesign(nowPlayingMovies, "Now Playing", goToMovieDescScreen)
             }
             if (topRatedMovies == null) {
                 Box(
@@ -181,7 +181,7 @@ fun MovieTabScreen(
                     CircularProgressIndicator()
                 }
             } else {
-                LazyRowNowPlayingMoviesDesign(upcomingMovies, "Upcoming Movies", goToMovieDescScreen)
+                LazyRowMoviesDesign(upcomingMovies, "Upcoming Movies", goToMovieDescScreen)
             }
 
             if (trendingMovies == null) {

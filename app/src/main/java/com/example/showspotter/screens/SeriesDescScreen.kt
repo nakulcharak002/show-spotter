@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
 import com.example.showspotter.R
 import com.example.showspotter.designs.DotPageIndicator
+import com.example.showspotter.designs.UserTemplate
 import com.example.showspotter.designs.YouTubePlayerTrailer
 import com.example.showspotter.designs.YouTubePlayerVideos
 import com.example.showspotter.tmdbMVVM.ViewModel
@@ -60,11 +61,14 @@ import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import okhttp3.internal.connection.RouteDatabase
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SeriesDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAllVideosScreen:(Int)->Unit) {
+fun SeriesDescScreen(databaseReference: DatabaseReference,auth:FirebaseAuth,viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAllVideosScreen:(Int)->Unit) {
     val context = LocalContext.current
     viewModel.getSeriesDetailsById(id)
     val seriesDetail: SeriesDetailsOneData? = viewModel.getSeriesDetailsById.collectAsState().value
@@ -298,7 +302,10 @@ fun SeriesDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAl
                     }
                 }
 
-
+                if(auth.currentUser!=null) {
+                    Spacer(modifier = Modifier.padding(top=15.dp))
+                    UserTemplate(viewModel,false,id,auth,databaseReference)
+                }
 
                 Column(
                     modifier = Modifier

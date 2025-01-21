@@ -1,6 +1,5 @@
 package com.example.showspotter
 
-import MyAppTheme
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -28,20 +27,24 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.showspotter.screens.AllMovieVideosScreen
 import com.example.showspotter.screens.AllSeriesVideosScreen
+import com.example.showspotter.screens.FavouriteScreen
 import com.example.showspotter.screens.HomeScreen
 import com.example.showspotter.screens.LoginScreen
 import com.example.showspotter.screens.MovieDescScreen
 import com.example.showspotter.screens.MovieTabScreen
 import com.example.showspotter.screens.OnBoardingScreen
+import com.example.showspotter.screens.Profile
 import com.example.showspotter.screens.SearchingScreen
 import com.example.showspotter.screens.SeriesDescScreen
 import com.example.showspotter.screens.SeriesTabScreen
 import com.example.showspotter.screens.SignUpDetailsScreen
 import com.example.showspotter.screens.SignUpScreen
+import com.example.showspotter.screens.WatchlistScreen
 import com.example.showspotter.tmdbMVVM.Repository
 import com.example.showspotter.tmdbMVVM.ViewModalFactory
 import com.example.showspotter.tmdbMVVM.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.collections.listOf
 import kotlin.getValue
 
@@ -65,8 +68,8 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(viewModel: ViewModel) {
-
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        val databaseReference = FirebaseDatabase.getInstance().reference
         val navController = rememberNavController()
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
@@ -96,19 +99,23 @@ fun MyApp(viewModel: ViewModel) {
                 },
                     goToSignUpScreen = {
                         navController.navigate("signupscreen")
+                    },
+                    goToHomeScreen = {
+                        navController.navigate("homescreen")
                     })
             }
 
             composable("loginscreen") {
-                LoginScreen(auth, openHomeScreen = {
+                LoginScreen(databaseReference,auth, openHomeScreen = {
                     navController.navigate("homescreen") {
                         popUpTo(0)
+
                     }
                 }, scope, launcher)
             }
 
             composable("signupscreen") {
-                SignUpScreen(
+                SignUpScreen(databaseReference,auth,
                     goToHomeScreen = {
                         navController.navigate("homescreen") {
                             popUpTo(0)
@@ -126,7 +133,7 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("signupdetailsscreen") {
-                SignUpDetailsScreen(auth, signSuccessGoToLoginScreen = {
+                SignUpDetailsScreen(databaseReference,auth, signSuccessGoToLoginScreen = {
                     navController.navigate("loginscreen")
                 }, goToBackSignUpScreen = {
                     navController.navigate("signupscreen")
@@ -188,6 +195,9 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToSearchScreen = {
                         navController.navigate("searchscreen")
+                    },
+                    goToProfileScreen = {
+                        navController.navigate("profilescreen")
                     })
             }
 
@@ -216,7 +226,7 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                MovieDescScreen(viewModel = viewModel, id, goToBackStack = {
+                MovieDescScreen(databaseReference,auth,viewModel = viewModel,id= id, goToBackStack = {
                     navController.popBackStack()
                 },
                     goToAllMovieVideosScreen = {
@@ -233,7 +243,7 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                SeriesDescScreen(viewModel = viewModel, id, goToBackStack = {
+                SeriesDescScreen(databaseReference,auth,viewModel = viewModel, id, goToBackStack = {
                     navController.popBackStack()
                 }, goToAllVideosScreen = {
                     navController.navigate("allseriesvideosscreen/$it")
@@ -285,6 +295,9 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToSearchScreen = {
                         navController.navigate("searchscreen")
+                    },
+                    goToProfileScreen = {
+                        navController.navigate("profilescreen")
                     })
             }
 
@@ -314,6 +327,9 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToSearchScreen = {
                         navController.navigate("searchscreen")
+                    },
+                    goToProfileScreen = {
+                        navController.navigate("profilescreen")
                     })
             }
 
@@ -325,6 +341,46 @@ fun MyApp(viewModel: ViewModel) {
                         navController.navigate("seriesdescscreen/$id")
                     })
             }
+
+            composable("profilescreen"){
+                Profile(databaseReference,context,auth, goToOnBoardingScreen = {
+                    navController.navigate("onboarding"){
+                        popUpTo(0)
+                    }
+                },
+                    goToBackStack = {
+                        navController.popBackStack()
+                    },
+                    goToFavouriteScreen = {
+                        navController.navigate("favouritescreen")
+                    },
+                    goToWatchlistScreen = {
+                        navController.navigate("watchlist")
+                    })
+            }
+
+            composable("favouritescreen"){
+                FavouriteScreen(viewModel,auth,databaseReference,goToBackStack={
+                    navController.popBackStack()
+                },goToMovieDescScreen = { id ->
+                    navController.navigate("moviedescscreen/$id")
+                },
+                    goToSeriesDescScreen = {id->
+                        navController.navigate("seriesdescscreen/$id")
+                    })
+            }
+
+            composable("watchlist"){
+                WatchlistScreen(auth,databaseReference,goToBackStack={
+                    navController.popBackStack()
+                },goToMovieDescScreen = { id ->
+                    navController.navigate("moviedescscreen/$id")
+                },
+                    goToSeriesDescScreen = {id->
+                        navController.navigate("seriesdescscreen/$id")
+                    })
+            }
+
 
         }
     }

@@ -4,10 +4,9 @@ package com.example.moviesapp.Retrofit
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
+import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
 import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
-import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
-import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
 import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
@@ -82,13 +81,13 @@ interface ApiServices {
     suspend fun getNowPlayingMovies(
         @Header("accept") accept: String,
         @Header("Authorization") authorization: String
-    ): MoviesNowPlayingData
+    ): PopularTopRatedTrendingOnTheAirMoviesData
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(
         @Header("accept") accept: String,
         @Header("Authorization") authorization: String
-    ): MoviesNowPlayingData // json same as now playing
+    ): PopularTopRatedTrendingOnTheAirMoviesData
 
     @GET("trending/movie/{time_window}")
     suspend fun getTrendingMovies(

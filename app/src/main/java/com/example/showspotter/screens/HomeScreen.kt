@@ -52,7 +52,8 @@ fun HomeScreen(
     goToHomeScreen:()->Unit,
     goToMovieTabScreen:()->Unit,
     goToSeriesTabScreen:()->Unit,
-    goToSearchScreen:()->Unit
+    goToSearchScreen:()->Unit,
+    goToProfileScreen:()->Unit
 ) {
     val popularMovies = viewModel.getPopularMovies.collectAsState().value
     val popularSeries = viewModel.getPopularSeries.collectAsState().value
@@ -83,7 +84,7 @@ fun HomeScreen(
                         .padding(8.dp)
                         .clip(CircleShape)
                         .clickable(onClick = {
-
+                                    goToProfileScreen()
                         })
                 )
 
@@ -209,10 +210,5 @@ fun HomeScreen(
             }
         }
         BottomNavigatorDesign(goToHomeScreen,goToMovieTabScreen, goToSeriesTabScreen)
-
     }
-
-
-
-
 }

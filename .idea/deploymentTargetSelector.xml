@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="ShowSpotter.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-01-19T11:16:18.107711500Z">
+        <DropdownSelection timestamp="2025-01-21T03:03:15.884904Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=10947313B8122838" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\vikas\.android\avd\Resizable_Experimental_API_35.avd" />
             </handle>
           </Target>
         </DropdownSelection>

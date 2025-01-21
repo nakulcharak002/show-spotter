@@ -5,10 +5,9 @@ import com.example.moviesapp.Retrofit.RetrofitBuilder
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
+import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
 import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
-import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
-import com.example.showspotter.tmdbapidataclass.Movie.MoviesNowPlayingData
 import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
@@ -45,7 +44,7 @@ class Repository {
         }
     }
 
-    suspend fun getMovieDetailById(id:Int): MovieDetailsData? {
+    suspend fun getMovieDetailById(id: Int): MovieDetailsData? {
         return try {
             val movies = apiServices.getMovieDetailById(
                 movieId = id,
@@ -60,7 +59,7 @@ class Repository {
         }
     }
 
-    suspend fun getMovieVideosById(id:Int): MovieVideosData? {
+    suspend fun getMovieVideosById(id: Int): MovieVideosData? {
         return try {
             val movies = apiServices.getMovieVideosById(
                 movieId = id,
@@ -75,7 +74,7 @@ class Repository {
         }
     }
 
-    suspend fun getMovieCreditsById(id:Int): MovieCreditsdata? {
+    suspend fun getMovieCreditsById(id: Int): MovieCreditsdata? {
         return try {
             val movies = apiServices.getMovieCreditsById(
                 movieId = id,
@@ -90,7 +89,7 @@ class Repository {
         }
     }
 
-    suspend fun getMovieReleaseDatesAndCertificationsById(id:Int): MovieReleaseDateAndCertification? {
+    suspend fun getMovieReleaseDatesAndCertificationsById(id: Int): MovieReleaseDateAndCertification? {
         return try {
             val movies = apiServices.getMovieReleaseDatesAndCertificationsById(
                 movieId = id,
@@ -105,7 +104,7 @@ class Repository {
         }
     }
 
-    suspend fun getMovieLinksById(id:Int): MovieLinks? {
+    suspend fun getMovieLinksById(id: Int): MovieLinks? {
         return try {
             val movies = apiServices.getMovieLinksById(
                 movieId = id,
@@ -134,7 +133,7 @@ class Repository {
         }
     }
 
-    suspend fun getNowPlayingMovies(): MoviesNowPlayingData? {
+    suspend fun getNowPlayingMovies(): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getNowPlayingMovies(
                 accept = "application/json",
@@ -148,7 +147,7 @@ class Repository {
         }
     }
 
-    suspend fun getUpcomingMovies(): MoviesNowPlayingData? {
+    suspend fun getUpcomingMovies(): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getUpcomingMovies(
                 accept = "application/json",
@@ -162,7 +161,7 @@ class Repository {
         }
     }
 
-    suspend fun getSeriesDetailsById(id:Int): SeriesDetailsOneData? {
+    suspend fun getSeriesDetailsById(id: Int): SeriesDetailsOneData? {
         return try {
             val movies = apiServices.getSeriesDetailsById(
                 seriesId = id,
@@ -177,7 +176,7 @@ class Repository {
         }
     }
 
-    suspend fun getSeriesVideosById(id:Int): SeriesVideosOneData? {
+    suspend fun getSeriesVideosById(id: Int): SeriesVideosOneData? {
         return try {
             val movies = apiServices.getSeriesVideosById(
                 seriesId = id,
@@ -192,7 +191,7 @@ class Repository {
         }
     }
 
-    suspend fun getSeriesCreditsById(id:Int): SeriesCreditsOneData? {
+    suspend fun getSeriesCreditsById(id: Int): SeriesCreditsOneData? {
         return try {
             val movies = apiServices.getSeriesCreditsById(
                 seriesId = id,
@@ -206,7 +205,8 @@ class Repository {
             null // Return null or handle it differently based on your use case
         }
     }
-    suspend fun getTrendingMovies(timeWindow:String): PopularTopRatedTrendingOnTheAirMoviesData? {
+
+    suspend fun getTrendingMovies(timeWindow: String): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getTrendingMovies(
                 timeWindow = timeWindow,
@@ -221,7 +221,7 @@ class Repository {
         }
     }
 
-    suspend fun getTrendingSeries(timeWindow:String): PopularTopRatedTrendingOnTheAirSeriesData? {
+    suspend fun getTrendingSeries(timeWindow: String): PopularTopRatedTrendingOnTheAirSeriesData? {
         return try {
             val movies = apiServices.getTrendingSeries(
                 timeWindow = timeWindow,
@@ -264,7 +264,7 @@ class Repository {
         }
     }
 
-    suspend fun getSearchedMovie(query:String): PopularTopRatedTrendingOnTheAirMoviesData? {
+    suspend fun getSearchedMovie(query: String): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {
             val movies = apiServices.getSearchedMovie(
                 query = query,
@@ -287,7 +287,7 @@ class Repository {
                 authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
-            movies
+            movies // returing
         } catch (e: Exception) {
             Log.e("Repository", "Error fetching Movie", e)
             null // Return null or handle it differently based on your use case

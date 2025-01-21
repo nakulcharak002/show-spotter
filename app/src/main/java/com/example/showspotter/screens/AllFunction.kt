@@ -1,5 +1,7 @@
 package com.example.showspotter.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
@@ -10,6 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.showspotter.R
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.BlendMode
 
 @Composable
 fun Pager() {
@@ -47,7 +54,25 @@ fun Pager() {
             painter = painterResource(id = imageList[page]),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            colorFilter = ColorFilter.tint(
+                color = Color.Black.copy(alpha = 0.7f),
+                blendMode = BlendMode.Multiply
+            )
         )
     }
 }
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatTimestamp(input: String): String {
+    // Parse the input timestamp
+    val parsedDate = ZonedDateTime.parse(input)
+
+    // Define the output format
+    val formatter = DateTimeFormatter.ofPattern("MMM d, yyyy")
+
+    // Format the date
+    return parsedDate.format(formatter)
+}
+

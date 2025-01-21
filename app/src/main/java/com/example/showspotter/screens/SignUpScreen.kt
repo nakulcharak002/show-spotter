@@ -26,7 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,21 +42,20 @@ import com.example.showspotter.GoogleSignInUtils
 //import com.example.showspotter.Authorization.GoogleSignInUtils
 import kotlinx.coroutines.CoroutineScope
 import com.example.showspotter.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 
 @Composable
-fun SignUpScreen(goToHomeScreen:()->Unit,goToLoginScreen: () -> Unit, goToSignUpDetails: () -> Unit,scope: CoroutineScope,launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?) {
+fun SignUpScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,goToHomeScreen:()->Unit,goToLoginScreen: () -> Unit, goToSignUpDetails: () -> Unit,scope: CoroutineScope,launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?) {
     val context = LocalContext.current
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
-
     Box(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.image7),contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop)
+            contentScale = ContentScale.Crop,
+            colorFilter = ColorFilter.tint(
+                color = Color.Black.copy(alpha = 0.7f),
+                blendMode = BlendMode.Multiply
+            ))
         Column(
             modifier = Modifier.fillMaxSize().padding(bottom=50.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,8 +91,13 @@ fun SignUpScreen(goToHomeScreen:()->Unit,goToLoginScreen: () -> Unit, goToSignUp
                                 scope = scope,
                                 launcher = launcher,
                                 login = {
-                                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT)
-                                        .show()
+                                    if(databaseReference.child("users").child(auth.currentUser!!.uid).get().isSuccessful){
+                                        Toast.makeText(context, "Welcome Back",Toast.LENGTH_SHORT).show()
+                                    }
+                                    else{
+                                        databaseReference.child("users").child(auth.currentUser!!.uid).child("username").setValue(auth.currentUser!!.displayName)
+                                        Toast.makeText(context, "New User",Toast.LENGTH_SHORT).show()
+                                    }
                                     goToHomeScreen()
                                 }
                             )

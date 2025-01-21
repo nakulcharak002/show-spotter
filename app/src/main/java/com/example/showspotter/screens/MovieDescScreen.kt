@@ -57,17 +57,20 @@ import androidx.annotation.RequiresApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import com.example.showspotter.designs.DotPageIndicator
+import com.example.showspotter.designs.UserTemplate
 import com.example.showspotter.designs.YouTubePlayerTrailer
 import com.example.showspotter.designs.YouTubePlayerVideos
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MovieDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAllMovieVideosScreen:(Int)->Unit) {
+fun MovieDescScreen(databaseReference: DatabaseReference,auth: FirebaseAuth, viewModel: ViewModel, id: Int, goToBackStack:()->Unit, goToAllMovieVideosScreen:(Int)->Unit) {
     val context = LocalContext.current
     viewModel.getMovieDetailById(id)
     val movieDetail: MovieDetailsData? = viewModel.getMovieDetailsById.collectAsState().value
@@ -288,7 +291,10 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAll
                     }
                 }
 
-
+                if(auth.currentUser!=null) {
+                    Spacer(modifier = Modifier.padding(top=15.dp))
+                    UserTemplate(viewModel,true,id,auth, databaseReference)
+                }
 
                 Column(
                     modifier = Modifier
@@ -604,15 +610,4 @@ fun MovieDescScreen(viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAll
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun formatTimestamp(input: String): String {
-    // Parse the input timestamp
-    val parsedDate = ZonedDateTime.parse(input)
-
-    // Define the output format
-    val formatter = DateTimeFormatter.ofPattern("MMM d, yyyy")
-
-    // Format the date
-    return parsedDate.format(formatter)
-}
 

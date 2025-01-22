@@ -11,13 +11,25 @@
 ## Features
 
 - **Movie Discovery:**
-  - Browse a wide range of movies fetched from the TMDB database.
+  - Browse a wide range of movies and web series fetched from the TMDB (The Movie Database) API.
+  - Discover trending, popular, and top-rated content effortlessly.
 
 - **Search Functionality:**
   - Find movies by entering keywords in the search bar.
+  - Enjoy quick, accurate results to discover your favorite titles.
 
 - **Detailed Movie Information:**
   - View details such as title, rating, release year, and more for each movie.
+  - View comprehensive details for each movie and web series, including:
+  - **Title**
+  - **Rating**
+  - **Release Year**
+  - **Synopsis**
+  - **Genre**
+
+- **Favorite List and Watchlist:**
+ - Save your favorite movies and web series to revisit them anytime.
+ - Add movies and web series to your personalized watchlist to keep track of what to watch next.
 
 ---
 
@@ -27,6 +39,8 @@
 - **Framework:** Jetpack Compose
 - **Networking:** Retrofit
 - **Architecture:** MVVM (Model-View-ViewModel)
+- **Authentication:** Firebase Authentication
+- **Data Storage:** Firebase Realtime Database
 
 ---
 

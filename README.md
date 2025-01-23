@@ -4,9 +4,6 @@
 
 ---
 
-## Designs
-![Alt text](app/src/main/res/drawable/app_interface.png)
-
 
 ## Features
 
@@ -32,6 +29,13 @@
  - Add movies and web series to your personalized watchlist to keep track of what to watch next.
 
 ---
+
+## Designs
+![Alt text](app/src/main/res/drawable/app_interface.png)
+
+## App Workflow
+![Alt text](app/src/main/res/drawable/app_workflow.png)
+
 
 ## Technical Details
 

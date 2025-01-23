@@ -77,4 +77,6 @@ dependencies {
     //coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    //shimmer
+    implementation(libs.compose.shimmer)
 }

@@ -133,10 +133,8 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("signupdetailsscreen") {
-                SignUpDetailsScreen(databaseReference,auth, signSuccessGoToLoginScreen = {
+                SignUpDetailsScreen(viewModel,databaseReference,auth, signSuccessGoToLoginScreen = {
                     navController.navigate("loginscreen")
-                }, goToBackSignUpScreen = {
-                    navController.navigate("signupscreen")
                 })
             }
 

@@ -24,6 +24,8 @@ interface ApiServices {
 //    image end point
 //    https://image.tmdb.org/t/p/{size}/{file_path}
 
+
+
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Header("accept") accept: String,

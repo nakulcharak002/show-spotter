@@ -2,7 +2,6 @@ package com.example.showspotter.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,13 +31,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.showspotter.authorization.SignUpUser
-import com.google.firebase.auth.FirebaseAuth
 import com.example.showspotter.R
+import com.example.showspotter.authorization.SignUpUser
+import com.example.showspotter.tmdbMVVM.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
 @Composable
-fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit,goToBackSignUpScreen:()->Unit) {
+fun SignUpDetailsScreen(viewModel: ViewModel,databaseReference:DatabaseReference,auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit) {
     val context = LocalContext.current
 
     var username by remember {
@@ -53,6 +54,11 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
         mutableStateOf("")
     }
 
+    val getValidEmail = viewModel.getValidEmail.collectAsState().value
+
+
+
+    Column {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(R.drawable.image10), contentDescription = null,
             modifier = Modifier.fillMaxSize(),
@@ -65,9 +71,9 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 50.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
+                .padding(top = 50.dp)
+           ) {
+
             Text(
                 text = "Enter Your details",
                 fontWeight = FontWeight.Medium,
@@ -103,6 +109,7 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
                 value = email,
                 onValueChange = {
                     email = it
+                    viewModel.checkEmailAddress(email)
                 },
                 label = {
                     Text("Email address")
@@ -135,11 +142,11 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
                     focusedBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
                     focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                   unfocusedLabelColor = Color.White,
+                    unfocusedTextColor = Color.White,unfocusedLabelColor = Color.White,
                     focusedLabelColor = Color.White
 
                 ),
+
                 modifier = Modifier.padding(start = 20.dp)
             )
             HorizontalDivider(
@@ -174,7 +181,12 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
 
             Button(
                 onClick = {
-                    if(username.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && password==confirmPassword) {
+                    viewModel.checkEmailAddress(email)
+                    if (getValidEmail?.data?.format_valid == true &&
+                        getValidEmail.data.mx_found == true &&
+                        getValidEmail.data.disposable == false &&
+                        getValidEmail.data.role == false &&
+                        password == confirmPassword){
                         SignUpUser(
                             databaseReference,
                             auth,
@@ -185,12 +197,28 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
                             signSuccessGoToLoginScreen
                         )
                     }
-                    else if(confirmPassword!=password){
-                        Toast.makeText(context,"confirm password not matched with password",Toast.LENGTH_SHORT).show()
+                    else {
+                         if (confirmPassword != password) {
+                            Toast.makeText(
+                                context,
+                                "confirm password not matched with password",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else if (getValidEmail?.data?.format_valid == false || !getValidEmail?.data?.mx_found!! || getValidEmail.data.disposable == true || getValidEmail.data.role == true) {
+                            Toast.makeText(
+                                context,
+                                "Please enter a valid email address",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Please fill all the fields",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                    else{
-                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show()
-                    }
+
                 },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -201,10 +229,12 @@ fun SignUpDetailsScreen(databaseReference:DatabaseReference,auth: FirebaseAuth,s
                     containerColor = Color(0xFF265AE8),
                     contentColor = Color.White
                 )
-            ) {
+
+            )
+            {
                 Text(text = "Continue", fontSize = 16.sp)
             }
-
         }
     }
+}
 }

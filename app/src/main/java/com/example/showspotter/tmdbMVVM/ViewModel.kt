@@ -1,24 +1,23 @@
 package com.example.showspotter.tmdbMVVM
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
+import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
 import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnTheAirMoviesData
-import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ViewModel(
     private val repository: Repository
@@ -43,10 +42,30 @@ class ViewModel(
     val getTopRatedSeries = MutableStateFlow<PopularTopRatedTrendingOnTheAirSeriesData?>(null)
     val getSearchedMovie = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
     val getSearchedSeries = MutableStateFlow<PopularTopRatedTrendingOnTheAirSeriesData?>(null)
+    val getValidEmail = MutableStateFlow<MailerooResponse?>(null)
+
+
     init{
         getPopularMovies()
         getPopularSeries()
     }
+
+    fun checkEmailAddress(email: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = repository.checkEmailAddress(email)
+                withContext(Dispatchers.Main) {
+                    getValidEmail.value = response
+                }
+            } catch (e: Exception) {
+                Log.e("EmailViewModel", "Error verifying email", e)
+                withContext(Dispatchers.Main) {
+                    getValidEmail.value = null
+                }
+            }
+        }
+    }
+
 
     fun getPopularMovies(){
         viewModelScope.launch(Dispatchers.IO){

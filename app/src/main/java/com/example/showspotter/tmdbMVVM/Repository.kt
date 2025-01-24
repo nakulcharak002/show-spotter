@@ -2,6 +2,9 @@ package com.example.showspotter.tmdbMVVM
 
 import android.util.Log
 import com.example.moviesapp.Retrofit.RetrofitBuilder
+import com.example.showspotter.Retrofit.email_check.EmailCheckApiServices
+import com.example.showspotter.Retrofit.email_check.EmailCheckRetrofitBuilder
+import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Movie.MovieLinks
@@ -15,6 +18,22 @@ import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
 
 class Repository {
     private val apiServices = RetrofitBuilder.getApi
+
+    private val emailCheckApiServices = EmailCheckRetrofitBuilder.getApi
+
+    suspend fun checkEmailAddress(email: String): MailerooResponse? {
+        return try {
+            val request = EmailCheckApiServices.EmailRequest(
+                api_key = "b627942b31077c7410d7f4a0161c6e5d1eecab90843d30f80d6e314d6c4e7a16", // Replace with actual API key
+                email_address = email
+            )
+            emailCheckApiServices.checkEmailAddress(request)
+        } catch (e: Exception) {
+            Log.e("EmailRepository", "Error verifying email", e)
+            null
+        }
+    }
+
 
     suspend fun getPopularMovies(): PopularTopRatedTrendingOnTheAirMoviesData? {
         return try {

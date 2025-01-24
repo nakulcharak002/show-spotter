@@ -162,13 +162,44 @@ fun LoginScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,openHome
                 )
             )
 
+            Text("Forget Password?",color=Color.Gray,modifier=Modifier.padding(top=15.dp).clickable(
+                onClick = {
+                    if (email.isEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "Please enter your email address",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val auth = FirebaseAuth.getInstance()
+
+                        auth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "Password reset email sent",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Error: ${task.exception?.message}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                    }
+                }
+            ))
+
             Button(
                 onClick = {
                     LogInUser(auth, email, password, context, openHomeScreen)
                 },
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .padding(start = 35.dp, end = 35.dp, top = 70.dp)
+                    .padding(start = 35.dp, end = 35.dp, top = 60.dp)
                     .fillMaxWidth()
                     .height(60.dp),
                 colors = ButtonDefaults.buttonColors(

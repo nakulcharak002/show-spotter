@@ -10,6 +10,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -90,7 +96,12 @@ fun MyApp(viewModel: ViewModel) {
             startDestination = startDes,
             modifier = Modifier.fillMaxSize().background(Color.Black)
         ) {
-            composable("onboarding") {
+            composable("onboarding",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }
+            ) {
                 OnBoardingScreen(goToLogInScreen = {
                     navController.navigate("loginscreen")
                 },
@@ -102,7 +113,11 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("loginscreen") {
+            composable("loginscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 LoginScreen(databaseReference,auth, openHomeScreen = {
                     navController.navigate("homescreen") {
                         popUpTo(0)
@@ -111,7 +126,11 @@ fun MyApp(viewModel: ViewModel) {
                 }, scope, launcher)
             }
 
-            composable("signupscreen") {
+            composable("signupscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 SignUpScreen(databaseReference,auth,
                     goToHomeScreen = {
                         navController.navigate("homescreen") {
@@ -129,19 +148,24 @@ fun MyApp(viewModel: ViewModel) {
                 )
             }
 
-            composable("signupdetailsscreen") {
+            composable("signupdetailsscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 SignUpDetailsScreen(viewModel,databaseReference,auth, signSuccessGoToLoginScreen = {
                     navController.navigate("loginscreen")
                 })
             }
 
             composable("homescreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }
+
             ) {
-                HomeScreen(navController,viewModel = viewModel, auth, goToOnBoardingScreen = {
-                    navController.navigate("onboarding") {
-                        popUpTo(0)
-                    }
-                },
+                HomeScreen(navController,viewModel = viewModel,
                     goToSeriesDescScreen = { id ->
                         navController.navigate("seriesdescscreen/$id")
 
@@ -179,6 +203,10 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("moviedescscreen/{id}",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() },
                 arguments = listOf(
                     navArgument("id") { type = NavType.IntType }
                 )
@@ -196,6 +224,10 @@ fun MyApp(viewModel: ViewModel) {
 
 
             composable("seriesdescscreen/{id}",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() },
                 arguments = listOf(
                     navArgument("id") { type = NavType.IntType }
                 )
@@ -209,6 +241,10 @@ fun MyApp(viewModel: ViewModel) {
                 })
             }
             composable("allseriesvideosscreen/{id}",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() },
                 arguments = listOf(
                     navArgument("id") { type = NavType.IntType }
                 )
@@ -221,6 +257,10 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("allmovievideosscreen/{id}",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() },
                 arguments = listOf(
                     navArgument("id") { type = NavType.IntType }
                 )
@@ -232,7 +272,11 @@ fun MyApp(viewModel: ViewModel) {
                 })
             }
 
-            composable("movietabscreen") {
+            composable("movietabscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 MovieTabScreen(navController,viewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
@@ -260,7 +304,11 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("seriestabscreen") {
+            composable("seriestabscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 SeriesTabScreen(navController,viewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
@@ -292,7 +340,11 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("searchscreen") {
+            composable("searchscreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }) {
                 SearchingScreen(viewModel, goToMovieDescScreen = { id ->
                     navController.navigate("moviedescscreen/$id")
                 },
@@ -304,7 +356,11 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("profilescreen"){
+            composable("profilescreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }){
                 Profile(databaseReference,context,auth, goToOnBoardingScreen = {
                     navController.navigate("onboarding"){
                         popUpTo(0)
@@ -321,7 +377,11 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("favouritescreen"){
+            composable("favouritescreen",
+                enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }){
                 FavouriteScreen(viewModel,auth,databaseReference,goToBackStack={
                     navController.popBackStack()
                 },goToMovieDescScreen = { id ->
@@ -332,7 +392,10 @@ fun MyApp(viewModel: ViewModel) {
                     })
             }
 
-            composable("watchlist"){
+            composable("watchlist", enterTransition = { fasterEnterTransition() },
+                exitTransition = { fasterExitTransition() },
+                popEnterTransition = { fasterEnterTransition() },
+                popExitTransition = { fasterExitTransition() }){
                 WatchlistScreen(auth,databaseReference,goToBackStack={
                     navController.popBackStack()
                 },goToMovieDescScreen = { id ->
@@ -346,3 +409,10 @@ fun MyApp(viewModel: ViewModel) {
 
         }
     }
+
+fun AnimatedContentTransitionScope<*>.fasterEnterTransition(): EnterTransition {
+    return fadeIn(animationSpec = tween(200)) // Adjust duration (200ms)
+}
+fun AnimatedContentTransitionScope<*>.fasterExitTransition(): ExitTransition {
+    return fadeOut(animationSpec = tween(200)) // Adjust duration (200ms)
+}

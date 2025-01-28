@@ -85,7 +85,7 @@ fun LazyRowMoviesDesign(movies: PopularTopRatedTrendingOnTheAirMoviesData?, head
                                     }
                                 )
                         ) {
-                            if(it.poster_path.isNotEmpty()) {
+                            if(it.poster_path!=null && it.poster_path.isNotEmpty()) {
                                 Card(modifier = Modifier.background(Color(0xFF2e2d2d))) {
                                     Image(
                                         painter = rememberAsyncImagePainter("https://image.tmdb.org/t/p/w300/${it.poster_path}"),

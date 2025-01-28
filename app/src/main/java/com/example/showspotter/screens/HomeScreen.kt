@@ -47,8 +47,6 @@ import kotlin.random.Random
 fun HomeScreen(
     navController: NavController,
     viewModel: ViewModel,
-    auth: FirebaseAuth,
-    goToOnBoardingScreen:()->Unit,
     goToSeriesDescScreen: (id: Int) -> Unit,
     goToMovieDescScreen: (id: Int) -> Unit,
     goToHomeScreen:()->Unit,
@@ -148,8 +146,8 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .height(250.dp), // Set a fixed height for the card
                         colorFilter = ColorFilter.tint(
-                            Color.Cyan.copy(alpha = 0.3f),
-                            blendMode = BlendMode.SrcAtop
+                            Color.Black.copy(alpha = 0.3f),
+                            blendMode = BlendMode.Darken
                         )
                     )
 

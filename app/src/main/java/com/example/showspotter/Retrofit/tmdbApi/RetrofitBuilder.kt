@@ -1,5 +1,6 @@
-package com.example.moviesapp.Retrofit
+package com.example.showspotter.Retrofit.tmdbApi
 
+import com.example.moviesapp.Retrofit.ApiServices
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

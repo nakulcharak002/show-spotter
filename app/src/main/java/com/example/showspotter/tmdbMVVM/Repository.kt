@@ -1,7 +1,8 @@
 package com.example.showspotter.tmdbMVVM
 
 import android.util.Log
-import com.example.moviesapp.Retrofit.RetrofitBuilder
+import com.example.showspotter.Retrofit.tmdbApi.RetrofitBuilder
+//import com.example.moviesapp.Retrofit.tm
 import com.example.showspotter.Retrofit.email_check.EmailCheckApiServices
 import com.example.showspotter.Retrofit.email_check.EmailCheckRetrofitBuilder
 import com.example.showspotter.tmdbapidataclass.MailerooResponse

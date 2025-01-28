@@ -45,7 +45,12 @@ import com.example.showspotter.tmdbapidataclass.Movie.PopularTopRatedTrendingOnT
 import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOnTheAirSeriesData
 
 @Composable
-fun SearchingScreen(viewModel: ViewModel,goToMovieDescScreen:(id:Int)->Unit,goToSeriesDescScreen:(id:Int)->Unit) {
+fun SearchingScreen(
+    viewModel: ViewModel,
+    goToMovieDescScreen: (id: Int) -> Unit,
+    goToSeriesDescScreen: (id: Int) -> Unit,
+    goToProfileScreen:()->Unit
+) {
     var text by remember { mutableStateOf("") }
     var done by remember {
         mutableStateOf(false)
@@ -79,7 +84,7 @@ fun SearchingScreen(viewModel: ViewModel,goToMovieDescScreen:(id:Int)->Unit,goTo
                         .padding(8.dp)
                         .clip(CircleShape)
                         .clickable(onClick = {
-
+                            goToProfileScreen()
                         })
                 )
 
@@ -128,7 +133,9 @@ fun SearchingScreen(viewModel: ViewModel,goToMovieDescScreen:(id:Int)->Unit,goTo
                             viewModel.getSearchedSeries(text)
                             done = true
                         },
-                        modifier = Modifier.fillMaxWidth().padding(top = 15.dp, end = 5.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 15.dp, end = 5.dp)
                             .height(60.dp),
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(

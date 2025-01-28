@@ -10,9 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -139,24 +136,6 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("homescreen",
-                enterTransition = {
-                    slideInHorizontally(
-                        initialOffsetX = { fullWidth -> fullWidth },
-                        animationSpec = tween(200)
-                    )
-                },
-                exitTransition = {
-                    slideOutHorizontally(
-                        targetOffsetX = { fullWidth -> -fullWidth },
-                        animationSpec = tween(200)
-                    )
-                },
-                popEnterTransition = {
-                    slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(200))
-                },
-                popExitTransition = {
-                    slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(200))
-                }
             ) {
                 HomeScreen(navController,viewModel = viewModel, auth, goToOnBoardingScreen = {
                     navController.navigate("onboarding") {
@@ -200,24 +179,6 @@ fun MyApp(viewModel: ViewModel) {
             }
 
             composable("moviedescscreen/{id}",
-                enterTransition = {
-                    slideInHorizontally(
-                        initialOffsetX = { fullWidth -> fullWidth },
-                        animationSpec = tween(200)
-                    )
-                },
-                exitTransition = {
-                    slideOutHorizontally(
-                        targetOffsetX = { fullWidth -> -fullWidth },
-                        animationSpec = tween(200)
-                    )
-                },
-                popEnterTransition = {
-                    slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(200))
-                },
-                popExitTransition = {
-                    slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(200))
-                },
                 arguments = listOf(
                     navArgument("id") { type = NavType.IntType }
                 )
@@ -337,6 +298,9 @@ fun MyApp(viewModel: ViewModel) {
                 },
                     goToSeriesDescScreen = { id ->
                         navController.navigate("seriesdescscreen/$id")
+                    },
+                    goToProfileScreen = {
+                        navController.navigate("profilescreen")
                     })
             }
 

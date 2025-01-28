@@ -1,6 +1,6 @@
 # ShowSpotter - The Movies App
 
-**ShowSpotter** is an Android application designed to help users discover and explore movies seamlessly. 
+**ShowSpotter** is a modern Android application designed to help users discover, explore, and keep track of their favorite movies and TV shows. Built with the latest Android technologies, this app provides a seamless user experience for movie enthusiasts.
 
 ---
 
@@ -45,6 +45,8 @@
 - **Architecture:** MVVM (Model-View-ViewModel)
 - **Authentication:** Firebase Authentication
 - **Data Storage:** Firebase Realtime Database
+- **SignUp Email Validation Check:** Maileroo
+- **LiveData and ViewModel:** For managing UI-related data in a lifecycle-conscious way.
 
 ---
 

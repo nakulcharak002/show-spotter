@@ -129,7 +129,7 @@ fun LoginScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,openHome
                         alignment = Alignment.CenterStart
                     )
                     Text(
-                        text = "Log in with Google",
+                        text = "Continue with google",
                         modifier = Modifier.padding(start = 10.dp),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium

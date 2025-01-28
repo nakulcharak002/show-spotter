@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -30,8 +29,11 @@ import com.example.showspotter.R
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun OnBoardingScreen(goToLogInScreen: () -> Unit,goToSignUpScreen:()->Unit,goToHomeScreen:()->Unit) {
-    val colorList = listOf(Color(0xFF0F2027),Color(0xFF203A43),Color(0xFF2c5364))
+fun OnBoardingScreen(
+    goToLogInScreen: () -> Unit,
+    goToSignUpScreen: () -> Unit,
+    goToHomeScreen: () -> Unit
+) {
     Box(Modifier
         .fillMaxSize()
         .background(Color.Transparent)) {
@@ -41,10 +43,10 @@ fun OnBoardingScreen(goToLogInScreen: () -> Unit,goToSignUpScreen:()->Unit,goToH
             fontSize = 15.sp,
             color = Color.White,
             modifier = Modifier
-                .fillMaxSize()
                 .align(
                     Alignment.TopEnd
-                ).padding(top=90.dp,end=30.dp)
+                )
+                .padding(top = 90.dp, end = 30.dp)
                 .clickable(
                     onClick = goToHomeScreen//withoutlogin
                 ),

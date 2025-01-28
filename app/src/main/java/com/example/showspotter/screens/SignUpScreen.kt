@@ -20,10 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
@@ -39,11 +35,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.showspotter.GoogleSignInUtils
-//import com.example.showspotter.Authorization.GoogleSignInUtils
-import kotlinx.coroutines.CoroutineScope
 import com.example.showspotter.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun SignUpScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,goToHomeScreen:()->Unit,goToLoginScreen: () -> Unit, goToSignUpDetails: () -> Unit,scope: CoroutineScope,launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?) {
@@ -113,7 +108,7 @@ fun SignUpScreen(databaseReference: DatabaseReference,auth: FirebaseAuth,goToHom
                         alignment = Alignment.CenterStart
                     )
                     Text(
-                        text = "Sign up with Google",
+                        text = "Continue with google",
                         modifier = Modifier.padding(start = 10.dp),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium

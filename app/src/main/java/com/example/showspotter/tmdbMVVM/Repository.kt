@@ -1,6 +1,8 @@
 package com.example.showspotter.tmdbMVVM
 
 import android.util.Log
+import com.example.showspotter.MainActivity.Companion.getEmailCheckApiKey
+import com.example.showspotter.MainActivity.Companion.getTmdbApiKey
 import com.example.showspotter.Retrofit.tmdbApi.RetrofitBuilder
 //import com.example.moviesapp.Retrofit.tm
 import com.example.showspotter.Retrofit.email_check.EmailCheckApiServices
@@ -16,6 +18,7 @@ import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOn
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
+import com.google.firebase.BuildConfig
 
 class Repository {
     private val apiServices = RetrofitBuilder.getApi
@@ -25,7 +28,7 @@ class Repository {
     suspend fun checkEmailAddress(email: String): MailerooResponse? {
         return try {
             val request = EmailCheckApiServices.EmailRequest(
-                api_key = "b627942b31077c7410d7f4a0161c6e5d1eecab90843d30f80d6e314d6c4e7a16", // Replace with actual API key
+                api_key = getEmailCheckApiKey(), // Replace with actual API key
                 email_address = email
             )
             emailCheckApiServices.checkEmailAddress(request)
@@ -40,7 +43,7 @@ class Repository {
         return try {
             val movies = apiServices.getPopularMovies(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully: movies")
             movies
@@ -54,7 +57,7 @@ class Repository {
         return try {
             val movies = apiServices.getPopularSeries(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:movies")
             movies
@@ -69,7 +72,7 @@ class Repository {
             val movies = apiServices.getMovieDetailById(
                 movieId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -84,7 +87,7 @@ class Repository {
             val movies = apiServices.getMovieVideosById(
                 movieId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization =getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -99,7 +102,7 @@ class Repository {
             val movies = apiServices.getMovieCreditsById(
                 movieId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization =getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -114,7 +117,7 @@ class Repository {
             val movies = apiServices.getMovieReleaseDatesAndCertificationsById(
                 movieId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -129,7 +132,7 @@ class Repository {
             val movies = apiServices.getMovieLinksById(
                 movieId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -143,7 +146,7 @@ class Repository {
         return try {
             val movies = apiServices.getTopRatedMovies(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -157,7 +160,7 @@ class Repository {
         return try {
             val movies = apiServices.getNowPlayingMovies(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -171,7 +174,7 @@ class Repository {
         return try {
             val movies = apiServices.getUpcomingMovies(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -186,7 +189,7 @@ class Repository {
             val movies = apiServices.getSeriesDetailsById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -201,7 +204,7 @@ class Repository {
             val movies = apiServices.getSeriesVideosById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -216,7 +219,7 @@ class Repository {
             val movies = apiServices.getSeriesCreditsById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -231,7 +234,7 @@ class Repository {
             val movies = apiServices.getTrendingMovies(
                 timeWindow = timeWindow,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -246,7 +249,7 @@ class Repository {
             val movies = apiServices.getTrendingSeries(
                 timeWindow = timeWindow,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -260,7 +263,7 @@ class Repository {
         return try {
             val movies = apiServices.getOnTheAirSeries(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -274,7 +277,7 @@ class Repository {
         return try {
             val movies = apiServices.getTopRatedSeries(
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -289,7 +292,7 @@ class Repository {
             val movies = apiServices.getSearchedMovie(
                 query = query,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -304,7 +307,7 @@ class Repository {
             val movies = apiServices.getSearchedSeries(
                 query = query,
                 accept = "application/json",
-                authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
+                authorization = getTmdbApiKey()
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies // returing

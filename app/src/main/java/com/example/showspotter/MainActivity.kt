@@ -2,6 +2,7 @@ package com.example.showspotter
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -47,16 +48,28 @@ import com.example.showspotter.tmdbMVVM.Repository
 import com.example.showspotter.tmdbMVVM.ViewModalFactory
 import com.example.showspotter.tmdbMVVM.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.BuildConfig
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.collections.listOf
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        init {
+            System.loadLibrary("keys")
+        }
+        @JvmStatic
+        external fun getTmdbApiKey(): String
+        @JvmStatic
+        external fun getEmailCheckApiKey(): String
+
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
                 val repository by lazy {
                     Repository()
                 }

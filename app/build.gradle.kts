@@ -1,9 +1,10 @@
+import java.util.*
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp) // for room
-    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.gms.google.services) // for auth
 }
 
 android {
@@ -29,6 +30,17 @@ android {
             )
         }
     }
+    externalNativeBuild {
+        ndkBuild {
+            path = File("src/main/jni/Android.mk")
+        }
+    }
+
+
+
+    ndkVersion = "28.0.13004108"
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

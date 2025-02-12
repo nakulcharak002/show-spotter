@@ -1,1 +1,3 @@
 /build
+# Ignore the keys.c file that contains API keys
+app/src/main/jni/keys.c

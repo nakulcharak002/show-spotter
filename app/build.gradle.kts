@@ -1,4 +1,3 @@
-import java.util.*
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,9 +16,7 @@ android {
         targetSdk = 35
         versionCode = 2
         versionName = "1.1"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" }
 
     buildTypes {
         release {
@@ -30,16 +27,6 @@ android {
             )
         }
     }
-    externalNativeBuild {
-        ndkBuild {
-            path = File("src/main/jni/Android.mk")
-        }
-    }
-
-
-
-    ndkVersion = "28.0.13004108"
-
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

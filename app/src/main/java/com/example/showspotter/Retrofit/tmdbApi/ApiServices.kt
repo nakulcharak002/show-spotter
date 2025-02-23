@@ -18,13 +18,6 @@ import retrofit2.http.Query
 
 interface ApiServices {
 
-//    Size
-//    Posters: w92, w154, w185, w342, w500, w780, original
-//    Backdrops: w300, w780, w1280, original
-//    image end point
-//    https://image.tmdb.org/t/p/{size}/{file_path}
-
-
 
     @GET("movie/popular")
     suspend fun getPopularMovies(

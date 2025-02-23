@@ -1,12 +1,9 @@
 package com.example.showspotter.tmdbMVVM
 
 import android.util.Log
-import com.example.showspotter.MainActivity.Companion.getEmailCheckApiKey
-import com.example.showspotter.MainActivity.Companion.getTmdbApiKey
-import com.example.showspotter.Retrofit.tmdbApi.RetrofitBuilder
-//import com.example.moviesapp.Retrofit.tm
 import com.example.showspotter.Retrofit.email_check.EmailCheckApiServices
 import com.example.showspotter.Retrofit.email_check.EmailCheckRetrofitBuilder
+import com.example.showspotter.Retrofit.tmdbApi.RetrofitBuilder
 import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
@@ -18,9 +15,11 @@ import com.example.showspotter.tmdbapidataclass.Series.PopularTopRatedTrendingOn
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
-import com.google.firebase.BuildConfig
 
 class Repository {
+    val maileroo_api_key = "your_maileroo_api_key" // website - https://app.maileroo.com/smtp-relay
+    val tmdb_api_key = "your_tmdb_api_key" // website - https://developer.themoviedb.org/reference/intro/getting-started
+
     private val apiServices = RetrofitBuilder.getApi
 
     private val emailCheckApiServices = EmailCheckRetrofitBuilder.getApi
@@ -28,7 +27,7 @@ class Repository {
     suspend fun checkEmailAddress(email: String): MailerooResponse? {
         return try {
             val request = EmailCheckApiServices.EmailRequest(
-                api_key = getEmailCheckApiKey(), // Replace with actual API key
+                api_key = maileroo_api_key, // Replace with actual API key
                 email_address = email
             )
             emailCheckApiServices.checkEmailAddress(request)
@@ -43,7 +42,7 @@ class Repository {
         return try {
             val movies = apiServices.getPopularMovies(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully: movies")
             movies
@@ -57,7 +56,7 @@ class Repository {
         return try {
             val movies = apiServices.getPopularSeries(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:movies")
             movies
@@ -72,7 +71,7 @@ class Repository {
             val movies = apiServices.getMovieDetailById(
                 movieId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -87,7 +86,7 @@ class Repository {
             val movies = apiServices.getMovieVideosById(
                 movieId = id,
                 accept = "application/json",
-                authorization =getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -102,7 +101,7 @@ class Repository {
             val movies = apiServices.getMovieCreditsById(
                 movieId = id,
                 accept = "application/json",
-                authorization =getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -117,7 +116,7 @@ class Repository {
             val movies = apiServices.getMovieReleaseDatesAndCertificationsById(
                 movieId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -132,7 +131,7 @@ class Repository {
             val movies = apiServices.getMovieLinksById(
                 movieId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -146,7 +145,7 @@ class Repository {
         return try {
             val movies = apiServices.getTopRatedMovies(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -160,7 +159,7 @@ class Repository {
         return try {
             val movies = apiServices.getNowPlayingMovies(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -174,7 +173,7 @@ class Repository {
         return try {
             val movies = apiServices.getUpcomingMovies(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -189,7 +188,7 @@ class Repository {
             val movies = apiServices.getSeriesDetailsById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -204,7 +203,7 @@ class Repository {
             val movies = apiServices.getSeriesVideosById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -219,7 +218,7 @@ class Repository {
             val movies = apiServices.getSeriesCreditsById(
                 seriesId = id,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -234,7 +233,7 @@ class Repository {
             val movies = apiServices.getTrendingMovies(
                 timeWindow = timeWindow,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -249,7 +248,7 @@ class Repository {
             val movies = apiServices.getTrendingSeries(
                 timeWindow = timeWindow,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -263,7 +262,7 @@ class Repository {
         return try {
             val movies = apiServices.getOnTheAirSeries(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -277,7 +276,7 @@ class Repository {
         return try {
             val movies = apiServices.getTopRatedSeries(
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -292,7 +291,7 @@ class Repository {
             val movies = apiServices.getSearchedMovie(
                 query = query,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies
@@ -307,7 +306,7 @@ class Repository {
             val movies = apiServices.getSearchedSeries(
                 query = query,
                 accept = "application/json",
-                authorization = getTmdbApiKey()
+                authorization = tmdb_api_key
             )
             Log.d("Repository", "Movies fetched successfully:  movies")
             movies // returing

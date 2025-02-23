@@ -82,19 +82,17 @@ To run this application locally, follow these steps:
 
 ## API Key Setup
 
-This app uses the TMDB API to fetch movie data. To access the API, you need to obtain an API key from TMDB.
+This app uses the TMDB API to fetch movie data and Maileroo Api for email verification. To access the API, you need to obtain an API key from TMDB and Maileroo Website.
 
 1. **Obtain an API Key:**
-   - Register for an account at [TMDB](https://www.themoviedb.org/).
-   - Navigate to your account settings and generate a new API key.
+    - Register for an account at [TMDB](https://www.themoviedb.org/).
+    - Navigate to your account settings and generate a new TMDB API key.
+    - Register for an account at [Maileroo](https://app.maileroo.com/smtp-relay)
+    - Generate Maileroo Api Key
 
-2. **Configure the API Key in the App:**
-   - Locate the `Constants.kt` file in the project.
-   - Replace the placeholder with your actual API key:
-
-     ```kotlin
-     const val API_KEY = "your_api_key_here"
-     ```
+2. **Paste the Api key**
+    - Go to path app/src/main/java/com/example/showspotter/tmdbMVVM/Repository.kt
+    - Paste the api keys
 
 ---
 

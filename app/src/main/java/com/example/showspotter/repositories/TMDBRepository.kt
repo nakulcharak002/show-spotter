@@ -1,9 +1,9 @@
-package com.example.showspotter.tmdbMVVM
+package com.example.showspotter.repositories
 
 import android.util.Log
-import com.example.showspotter.Retrofit.tmdbApi.RetrofitBuilder
-import com.example.showspotter.Retrofit.email_check.EmailCheckApiServices
-import com.example.showspotter.Retrofit.email_check.EmailCheckRetrofitBuilder
+import com.example.showspotter.retrofit.email_check.EmailCheckApiServices
+import com.example.showspotter.retrofit.email_check.EmailCheckRetrofitBuilder
+import com.example.showspotter.retrofit.tmdbApi.RetrofitBuilder
 import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
@@ -16,9 +16,11 @@ import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
 
-class Repository {
-    val maileroo_api_key = "your_maileroo_api_key" // website - https://app.maileroo.com/smtp-relay
-    val tmdb_api_key = "your_tmdb_api_key" // website - https://developer.themoviedb.org/reference/intro/getting-started
+class TMDBRepository {
+//    val maileroo_api_key = "your_maileroo_api_key" // website - https://app.maileroo.com/smtp-relay
+//    val tmdb_api_key = "your_tmdb_api_key" // website - https://developer.themoviedb.org/reference/intro/getting-started
+    val maileroo_api_key = "67583b7473858a245f22f6f815fedf4d947466b4bda30df9d3ae9dafc78cbc8b"
+    val tmdb_api_key = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZTQwZjMzODI0NTc2ZTFhZTRjNTljNDMyOWNiYTllYyIsIm5iZiI6MTczNjQ1NTgxMi4yMDUsInN1YiI6IjY3ODAzNjg0NDRkNjQ5ZmZhZTdiNTg3NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AURYa6P9bFNnHl5CtkMPqYU5tL84XtzkPg7D3XoEyww"
 
     private val apiServices = RetrofitBuilder.getApi
 

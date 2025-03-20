@@ -39,24 +39,24 @@ import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
 import com.example.showspotter.designs.LazyRowSeriesDesign
-import com.example.showspotter.tmdbMVVM.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import com.example.showspotter.viewmodels.TMDBViewModel
 import kotlin.random.Random
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: ViewModel,
+    TMDBViewModel: TMDBViewModel,
     goToSeriesDescScreen: (id: Int) -> Unit,
     goToMovieDescScreen: (id: Int) -> Unit,
     goToHomeScreen:()->Unit,
     goToMovieTabScreen:()->Unit,
     goToSeriesTabScreen:()->Unit,
     goToSearchScreen:()->Unit,
-    goToProfileScreen:()->Unit
+    goToProfileScreen:()->Unit,
+    goToSettingTabScreen:()->Unit
 ) {
-    val popularMovies = viewModel.getPopularMovies.collectAsState().value
-    val popularSeries = viewModel.getPopularSeries.collectAsState().value
+    val popularMovies = TMDBViewModel.getPopularMovies.collectAsState().value
+    val popularSeries = TMDBViewModel.getPopularSeries.collectAsState().value
     Box( modifier = Modifier
         .fillMaxSize()
         .background(Color.Black) ) {
@@ -209,6 +209,6 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.padding(top=100.dp))
             }
         }
-        BottomNavigatorDesign(navController,goToHomeScreen,goToMovieTabScreen, goToSeriesTabScreen)
+        BottomNavigatorDesign(navController,goToHomeScreen,goToMovieTabScreen, goToSeriesTabScreen, goToSettingTabScreen)
     }
 }

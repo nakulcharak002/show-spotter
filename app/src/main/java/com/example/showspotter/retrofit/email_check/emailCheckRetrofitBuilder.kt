@@ -1,16 +1,15 @@
-package com.example.showspotter.Retrofit.tmdbApi
+package com.example.showspotter.retrofit.email_check
 
-import com.example.moviesapp.Retrofit.ApiServices
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitBuilder {
-    private val baseurl = "https://api.themoviedb.org/3/"
+object EmailCheckRetrofitBuilder {
+    private val baseurl = "https://verify.maileroo.net/"
 
-    val getApi: ApiServices by lazy {
+    val getApi: EmailCheckApiServices by lazy {
         Retrofit.Builder().baseUrl(baseurl)
             .addConverterFactory(GsonConverterFactory.create()) // convert json to actual object(here gson do this)
             .build()
-            .create(ApiServices::class.java)
+            .create(EmailCheckApiServices::class.java)
     }
 }

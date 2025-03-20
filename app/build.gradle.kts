@@ -65,7 +65,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.googleid)
-    //viewmode,navigation
+    //viewmodel,navigation
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.runtime.livedata)

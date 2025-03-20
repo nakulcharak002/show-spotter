@@ -1,4 +1,4 @@
-package com.example.showspotter.Retrofit.email_check
+package com.example.showspotter.retrofit.email_check
 
 import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import retrofit2.http.Body

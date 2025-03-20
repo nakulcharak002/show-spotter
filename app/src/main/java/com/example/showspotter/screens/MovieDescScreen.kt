@@ -19,7 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 import androidx.compose.runtime.collectAsState
 //import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,25 +64,23 @@ import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MovieDescScreen(databaseReference: DatabaseReference,auth: FirebaseAuth, viewModel: ViewModel, id: Int, goToBackStack:()->Unit, goToAllMovieVideosScreen:(Int)->Unit) {
+fun MovieDescScreen(databaseReference: DatabaseReference, auth: FirebaseAuth, TMDBViewModel: TMDBViewModel, id: Int, goToBackStack:()->Unit, goToAllMovieVideosScreen:(Int)->Unit) {
     val context = LocalContext.current
-    viewModel.getMovieDetailById(id)
-    val movieDetail: MovieDetailsData? = viewModel.getMovieDetailsById.collectAsState().value
+    TMDBViewModel.getMovieDetailById(id)
+    val movieDetail: MovieDetailsData? = TMDBViewModel.getMovieDetailsById.collectAsState().value
 
-    viewModel.getMovieCreditsById(id)
-    val movieCredits: MovieCreditsdata? = viewModel.getMovieCreditsById.collectAsState().value
+    TMDBViewModel.getMovieCreditsById(id)
+    val movieCredits: MovieCreditsdata? = TMDBViewModel.getMovieCreditsById.collectAsState().value
 
-    viewModel.getMovieVideosById(id)
-    val movieVideos: MovieVideosData? = viewModel.getMovieVideosById.collectAsState().value
+    TMDBViewModel.getMovieVideosById(id)
+    val movieVideos: MovieVideosData? = TMDBViewModel.getMovieVideosById.collectAsState().value
 
-    viewModel.getMovieReleaseDatesAndCertificationsById(id)
-    val movieReleaseAndCertification: MovieReleaseDateAndCertification? = viewModel.getMovieReleaseDatesAndCertificationsById.collectAsState().value
+    TMDBViewModel.getMovieReleaseDatesAndCertificationsById(id)
+    val movieReleaseAndCertification: MovieReleaseDateAndCertification? = TMDBViewModel.getMovieReleaseDatesAndCertificationsById.collectAsState().value
 
 
     if (movieDetail != null) {
@@ -293,7 +291,7 @@ fun MovieDescScreen(databaseReference: DatabaseReference,auth: FirebaseAuth, vie
 
                 if(auth.currentUser!=null) {
                     Spacer(modifier = Modifier.padding(top=15.dp))
-                    UserTemplate(viewModel,true,id,auth, databaseReference)
+                    UserTemplate(TMDBViewModel,true,id,auth, databaseReference)
                 }
 
                 Column(
@@ -322,8 +320,8 @@ fun MovieDescScreen(databaseReference: DatabaseReference,auth: FirebaseAuth, vie
                             .padding(start = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) { // all website links for movie
-                        viewModel.getMovieLinksById(id)
-                        val movieLinks = viewModel.getMovieLinksById.collectAsState().value
+                        TMDBViewModel.getMovieLinksById(id)
+                        val movieLinks = TMDBViewModel.getMovieLinksById.collectAsState().value
                         Image(
                             painter = painterResource(id = R.drawable.imdb),
                             contentDescription = null,

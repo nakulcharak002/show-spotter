@@ -1,8 +1,9 @@
-package com.example.showspotter.tmdbMVVM
+package com.example.showspotter.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.showspotter.repositories.TMDBRepository
 import com.example.showspotter.tmdbapidataclass.MailerooResponse
 import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
@@ -19,8 +20,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ViewModel(
-    private val repository: Repository
+class TMDBViewModel(
+    private val TMDBRepository: TMDBRepository
 ) : ViewModel() {
 
     val getPopularMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
@@ -28,7 +29,8 @@ class ViewModel(
     var getMovieDetailsById = MutableStateFlow<MovieDetailsData?>(null)
     var getMovieVideosById = MutableStateFlow<MovieVideosData?>(null)
     var getMovieCreditsById = MutableStateFlow<MovieCreditsdata?>(null)
-    var getMovieReleaseDatesAndCertificationsById = MutableStateFlow<MovieReleaseDateAndCertification?>(null)
+    var getMovieReleaseDatesAndCertificationsById =
+        MutableStateFlow<MovieReleaseDateAndCertification?>(null)
     val getMovieLinksById = MutableStateFlow<MovieLinks?>(null)
     val getTopRatedMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
     val getNowPlayingMovies = MutableStateFlow<PopularTopRatedTrendingOnTheAirMoviesData?>(null)
@@ -53,7 +55,7 @@ class ViewModel(
     fun checkEmailAddress(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.checkEmailAddress(email)
+                val response = TMDBRepository.checkEmailAddress(email)
                 withContext(Dispatchers.Main) {
                     getValidEmail.value = response
                 }
@@ -69,129 +71,129 @@ class ViewModel(
 
     fun getPopularMovies(){
         viewModelScope.launch(Dispatchers.IO){
-            val movies = repository.getPopularMovies()
+            val movies = TMDBRepository.getPopularMovies()
             getPopularMovies.value = movies
 
         }
     }
     fun getPopularSeries(){
         viewModelScope.launch(Dispatchers.IO){
-            val series = repository.getPopularSeries()
+            val series = TMDBRepository.getPopularSeries()
             getPopularSeries.value = series
         }
     }
 
     fun getMovieDetailById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getMovieDetailById(id)
+            val movie = TMDBRepository.getMovieDetailById(id)
             getMovieDetailsById.value = movie
         }
     }
 
     fun getMovieVideosById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getMovieVideosById(id)
+            val movie = TMDBRepository.getMovieVideosById(id)
             getMovieVideosById.value = movie
         }
     }
 
     fun getMovieCreditsById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getMovieCreditsById(id)
+            val movie = TMDBRepository.getMovieCreditsById(id)
             getMovieCreditsById.value = movie
         }
     }
 
     fun getMovieReleaseDatesAndCertificationsById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getMovieReleaseDatesAndCertificationsById(id)
+            val movie = TMDBRepository.getMovieReleaseDatesAndCertificationsById(id)
             getMovieReleaseDatesAndCertificationsById.value = movie
         }
     }
 
     fun getMovieLinksById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getMovieLinksById(id)
+            val movie = TMDBRepository.getMovieLinksById(id)
             getMovieLinksById.value = movie
         }
     }
 
     fun getTopRatedMovies(){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getTopRatedMovies()
+            val movie = TMDBRepository.getTopRatedMovies()
             getTopRatedMovies.value = movie
         }
     }
     fun getNowPlayingMovies(){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getNowPlayingMovies()
+            val movie = TMDBRepository.getNowPlayingMovies()
             getNowPlayingMovies.value = movie
         }
     }
     fun getUpcomingMovies(){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getUpcomingMovies()
+            val movie = TMDBRepository.getUpcomingMovies()
             getUpcomingMovies.value = movie
         }
     }
     fun getSeriesDetailsById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getSeriesDetailsById(id)
+            val movie = TMDBRepository.getSeriesDetailsById(id)
             getSeriesDetailsById.value = movie
         }
     }
     fun getSeriesVideosById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getSeriesVideosById(id)
+            val movie = TMDBRepository.getSeriesVideosById(id)
             getSeriesVideosById.value = movie
         }
     }
 
     fun getSeriesCreditsById(id:Int){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getSeriesCreditsById(id)
+            val movie = TMDBRepository.getSeriesCreditsById(id)
             getSeriesCreditsById.value = movie
         }
     }
 
     fun getTrendingMovies(timeWindow:String){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getTrendingMovies(timeWindow)
+            val movie = TMDBRepository.getTrendingMovies(timeWindow)
             getTrendingMovies.value = movie
         }
     }
 
     fun getTrendingSeries(timeWindow:String){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getTrendingSeries(timeWindow)
+            val movie = TMDBRepository.getTrendingSeries(timeWindow)
             getTrendingSeries.value = movie
         }
     }
 
     fun getOnTheAirSeries(){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getOnTheAirSeries()
+            val movie = TMDBRepository.getOnTheAirSeries()
             getOnTheAirSeries.value = movie
         }
     }
 
     fun getTopRatedSeries(){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getTopRatedSeries()
+            val movie = TMDBRepository.getTopRatedSeries()
             getTopRatedSeries.value = movie
         }
     }
 
     fun getSearchedMovie(query: String){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getSearchedMovie(query)
+            val movie = TMDBRepository.getSearchedMovie(query)
             getSearchedMovie.value = movie
         }
     }
 
     fun getSearchedSeries(query: String){
         viewModelScope.launch(Dispatchers.IO){
-            val movie = repository.getSearchedSeries(query)
+            val movie = TMDBRepository.getSearchedSeries(query)
             getSearchedSeries.value = movie
         }
     }

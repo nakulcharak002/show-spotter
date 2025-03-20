@@ -33,12 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.showspotter.R
 import com.example.showspotter.authorization.SignUpUser
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
 @Composable
-fun SignUpDetailsScreen(viewModel: ViewModel,databaseReference:DatabaseReference,auth: FirebaseAuth,signSuccessGoToLoginScreen:()->Unit) {
+fun SignUpDetailsScreen(TMDBViewModel: TMDBViewModel, databaseReference:DatabaseReference, auth: FirebaseAuth, signSuccessGoToLoginScreen:()->Unit) {
     val context = LocalContext.current
 
     var username by remember {
@@ -54,7 +54,7 @@ fun SignUpDetailsScreen(viewModel: ViewModel,databaseReference:DatabaseReference
         mutableStateOf("")
     }
 
-    val getValidEmail = viewModel.getValidEmail.collectAsState().value
+    val getValidEmail = TMDBViewModel.getValidEmail.collectAsState().value
 
 
 
@@ -109,7 +109,7 @@ fun SignUpDetailsScreen(viewModel: ViewModel,databaseReference:DatabaseReference
                 value = email,
                 onValueChange = {
                     email = it
-                    viewModel.checkEmailAddress(email)
+                    TMDBViewModel.checkEmailAddress(email)
                 },
                 label = {
                     Text("Email address")
@@ -181,7 +181,7 @@ fun SignUpDetailsScreen(viewModel: ViewModel,databaseReference:DatabaseReference
 
             Button(
                 onClick = {
-                    viewModel.checkEmailAddress(email)
+                    TMDBViewModel.checkEmailAddress(email)
                     if (getValidEmail?.data?.format_valid == true &&
                         getValidEmail.data.mx_found == true &&
                         getValidEmail.data.disposable == false &&

@@ -53,31 +53,26 @@ import com.example.showspotter.designs.DotPageIndicator
 import com.example.showspotter.designs.UserTemplate
 import com.example.showspotter.designs.YouTubePlayerTrailer
 import com.example.showspotter.designs.YouTubePlayerVideos
-import com.example.showspotter.tmdbMVVM.ViewModel
-import com.example.showspotter.tmdbapidataclass.Movie.MovieCreditsdata
-import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
-import com.example.showspotter.tmdbapidataclass.Movie.MovieReleaseDateAndCertification
-import com.example.showspotter.tmdbapidataclass.Movie.MovieVideosData
+import com.example.showspotter.viewmodels.TMDBViewModel
 import com.example.showspotter.tmdbapidataclass.Series.SeriesCreditsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesVideosOneData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import okhttp3.internal.connection.RouteDatabase
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SeriesDescScreen(databaseReference: DatabaseReference,auth:FirebaseAuth,viewModel: ViewModel, id: Int,goToBackStack:()->Unit,goToAllVideosScreen:(Int)->Unit) {
+fun SeriesDescScreen(databaseReference: DatabaseReference, auth:FirebaseAuth, TMDBViewModel: TMDBViewModel, id: Int, goToBackStack:()->Unit, goToAllVideosScreen:(Int)->Unit) {
     val context = LocalContext.current
-    viewModel.getSeriesDetailsById(id)
-    val seriesDetail: SeriesDetailsOneData? = viewModel.getSeriesDetailsById.collectAsState().value
+    TMDBViewModel.getSeriesDetailsById(id)
+    val seriesDetail: SeriesDetailsOneData? = TMDBViewModel.getSeriesDetailsById.collectAsState().value
 
-    viewModel.getSeriesCreditsById(id)
-    val seriesCredits: SeriesCreditsOneData? = viewModel.getSeriesCreditsById.collectAsState().value
+    TMDBViewModel.getSeriesCreditsById(id)
+    val seriesCredits: SeriesCreditsOneData? = TMDBViewModel.getSeriesCreditsById.collectAsState().value
 
-    viewModel.getSeriesVideosById(id)
-    val seriesVideos: SeriesVideosOneData? = viewModel.getSeriesVideosById.collectAsState().value
+    TMDBViewModel.getSeriesVideosById(id)
+    val seriesVideos: SeriesVideosOneData? = TMDBViewModel.getSeriesVideosById.collectAsState().value
 //
 //    viewModel.getMovieReleaseDatesAndCertificationsById(id)
 //    val movieReleaseAndCertification: MovieReleaseDateAndCertification? = viewModel.getMovieReleaseDatesAndCertificationsById.collectAsState().value
@@ -304,7 +299,7 @@ fun SeriesDescScreen(databaseReference: DatabaseReference,auth:FirebaseAuth,view
 
                 if(auth.currentUser!=null) {
                     Spacer(modifier = Modifier.padding(top=15.dp))
-                    UserTemplate(viewModel,false,id,auth,databaseReference)
+                    UserTemplate(TMDBViewModel,false,id,auth,databaseReference)
                 }
 
                 Column(
@@ -333,8 +328,8 @@ fun SeriesDescScreen(databaseReference: DatabaseReference,auth:FirebaseAuth,view
                             .padding(start = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) { // all website links for movie
-                        viewModel.getMovieLinksById(id)
-                        val movieLinks = viewModel.getMovieLinksById.collectAsState().value
+                        TMDBViewModel.getMovieLinksById(id)
+                        val movieLinks = TMDBViewModel.getMovieLinksById.collectAsState().value
                         Image(
                             painter = painterResource(id = R.drawable.imdb),
                             contentDescription = null,

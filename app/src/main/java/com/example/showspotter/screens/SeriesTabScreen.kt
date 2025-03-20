@@ -37,40 +37,41 @@ import androidx.navigation.NavController
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowSeriesDesign
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 import kotlin.Unit
 
 @Composable
 fun SeriesTabScreen(
     navController: NavController,
-    viewModel: ViewModel,
+    TMDBViewModel: TMDBViewModel,
     goToHomeScreen: () -> Unit,
     goToMovieTabScreen: () -> Unit,
     goToSeriesTabScreen: () -> Unit,
     goToSeriesDescScreen: (id: Int) -> Unit,
     goToSearchScreen:()->Unit,
-    goToProfileScreen:()->Unit
+    goToProfileScreen:()->Unit,
+    goToSettingTabScreen:()->Unit
 ) {
     var timeWindow by remember{
         mutableStateOf("week")
     }
-    if(viewModel.getPopularSeries.collectAsState().value==null) {
-        viewModel.getPopularMovies()
+    if(TMDBViewModel.getPopularSeries.collectAsState().value==null) {
+        TMDBViewModel.getPopularMovies()
     }
 
-    if(viewModel.getTopRatedSeries.collectAsState().value==null) {
-        viewModel.getTopRatedSeries()
+    if(TMDBViewModel.getTopRatedSeries.collectAsState().value==null) {
+        TMDBViewModel.getTopRatedSeries()
     }
-    if(viewModel.getTrendingSeries.collectAsState().value==null){
-        viewModel.getTrendingSeries(timeWindow)
+    if(TMDBViewModel.getTrendingSeries.collectAsState().value==null){
+        TMDBViewModel.getTrendingSeries(timeWindow)
     }
-    if(viewModel.getOnTheAirSeries.collectAsState().value==null){
-        viewModel.getOnTheAirSeries()
+    if(TMDBViewModel.getOnTheAirSeries.collectAsState().value==null){
+        TMDBViewModel.getOnTheAirSeries()
     }
-    val popularSeries = viewModel.getPopularSeries.collectAsState().value
-    val topRatedSeries = viewModel.getTopRatedSeries.collectAsState().value
-    val nowPlayingSeries = viewModel.getTrendingSeries.collectAsState().value
-    val onTheAirSeries = viewModel.getOnTheAirSeries.collectAsState().value
+    val popularSeries = TMDBViewModel.getPopularSeries.collectAsState().value
+    val topRatedSeries = TMDBViewModel.getTopRatedSeries.collectAsState().value
+    val nowPlayingSeries = TMDBViewModel.getTrendingSeries.collectAsState().value
+    val onTheAirSeries = TMDBViewModel.getOnTheAirSeries.collectAsState().value
 
     Box( modifier = Modifier
         .fillMaxSize()
@@ -185,5 +186,5 @@ fun SeriesTabScreen(
 
         }
     }
-    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
+    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen,goToSettingTabScreen)
 }

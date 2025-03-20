@@ -37,44 +37,45 @@ import androidx.navigation.NavController
 import com.example.showspotter.R
 import com.example.showspotter.designs.BottomNavigatorDesign
 import com.example.showspotter.designs.LazyRowMoviesDesign
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 
 @Composable
 fun MovieTabScreen(
     navController: NavController,
-    viewModel: ViewModel,
+    TMDBViewModel: TMDBViewModel,
     goToHomeScreen: () -> Unit,
     goToMovieTabScreen: () -> Unit,
     goToMovieDescScreen: (id: Int) -> Unit,
     goToSeriesTabScreen:()->Unit,
     goToSearchScreen:()->Unit,
-    goToProfileScreen:()->Unit
+    goToProfileScreen:()->Unit,
+    goToSettingTabScreen:()->Unit
 ) {
 //    viewModel.getPopularMovies() // dont have to call popular movies as it is colled in home screen already
     var timeWindow by remember{
         mutableStateOf("week")
     }
-    if(viewModel.getPopularMovies.collectAsState().value==null) {
-        viewModel.getPopularMovies()
+    if(TMDBViewModel.getPopularMovies.collectAsState().value==null) {
+        TMDBViewModel.getPopularMovies()
     }
 
-    if(viewModel.getTopRatedMovies.collectAsState().value==null) {
-        viewModel.getTopRatedMovies()
+    if(TMDBViewModel.getTopRatedMovies.collectAsState().value==null) {
+        TMDBViewModel.getTopRatedMovies()
     }
-    if(viewModel.getNowPlayingMovies.collectAsState().value==null) {
-        viewModel.getNowPlayingMovies()
+    if(TMDBViewModel.getNowPlayingMovies.collectAsState().value==null) {
+        TMDBViewModel.getNowPlayingMovies()
     }
-    if(viewModel.getUpcomingMovies.collectAsState().value==null) {
-        viewModel.getUpcomingMovies()
+    if(TMDBViewModel.getUpcomingMovies.collectAsState().value==null) {
+        TMDBViewModel.getUpcomingMovies()
     }
-    if(viewModel.getTrendingMovies.collectAsState().value==null){
-        viewModel.getTrendingMovies(timeWindow)
+    if(TMDBViewModel.getTrendingMovies.collectAsState().value==null){
+        TMDBViewModel.getTrendingMovies(timeWindow)
     }
-    val popularMovies = viewModel.getPopularMovies.collectAsState().value
-    val topRatedMovies = viewModel.getTopRatedMovies.collectAsState().value
-    val nowPlayingMovies = viewModel.getNowPlayingMovies.collectAsState().value
-    val upcomingMovies = viewModel.getUpcomingMovies.collectAsState().value
-    val trendingMovies = viewModel.getTrendingMovies.collectAsState().value
+    val popularMovies = TMDBViewModel.getPopularMovies.collectAsState().value
+    val topRatedMovies = TMDBViewModel.getTopRatedMovies.collectAsState().value
+    val nowPlayingMovies = TMDBViewModel.getNowPlayingMovies.collectAsState().value
+    val upcomingMovies = TMDBViewModel.getUpcomingMovies.collectAsState().value
+    val trendingMovies = TMDBViewModel.getTrendingMovies.collectAsState().value
 
     Box( modifier = Modifier
         .fillMaxSize()
@@ -199,5 +200,5 @@ fun MovieTabScreen(
             }
         }
     }
-    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen)
+    BottomNavigatorDesign(navController,goToHomeScreen, goToMovieTabScreen, goToSeriesTabScreen,goToSettingTabScreen)
 }

@@ -30,24 +30,24 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.showspotter.R
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 import com.example.showspotter.tmdbapidataclass.Movie.MovieDetailsData
 import com.example.showspotter.tmdbapidataclass.Series.SeriesDetailsOneData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
 @Composable
-fun UserTemplate(viewModel: ViewModel,isMovie: Boolean, id:Int, auth: FirebaseAuth, databaseReference: DatabaseReference){//movieId
+fun UserTemplate(TMDBViewModel: TMDBViewModel, isMovie: Boolean, id:Int, auth: FirebaseAuth, databaseReference: DatabaseReference){//movieId
     val context = LocalContext.current
     var movieDetail:MovieDetailsData? =  null
     var seriesDetail: SeriesDetailsOneData? =  null
     if(isMovie) {
-        viewModel.getMovieDetailById(id)
-        movieDetail = viewModel.getMovieDetailsById.collectAsState().value
+        TMDBViewModel.getMovieDetailById(id)
+        movieDetail = TMDBViewModel.getMovieDetailsById.collectAsState().value
     }
     else{
-        viewModel.getSeriesDetailsById(id)
-        seriesDetail = viewModel.getSeriesDetailsById.collectAsState().value
+        TMDBViewModel.getSeriesDetailsById(id)
+        seriesDetail = TMDBViewModel.getSeriesDetailsById.collectAsState().value
     }
     var favourite by remember{
         mutableStateOf(false)

@@ -18,7 +18,6 @@ import retrofit2.http.Query
 
 interface ApiServices {
 
-
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Header("accept") accept: String,

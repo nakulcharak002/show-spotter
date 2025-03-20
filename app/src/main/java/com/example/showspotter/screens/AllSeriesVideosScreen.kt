@@ -32,13 +32,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.showspotter.R
 import com.example.showspotter.designs.YouTubePlayerAllVideos
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.viewmodels.TMDBViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AllSeriesVideosScreen(viewModel: ViewModel, id:Int, goBack:()->Unit) {
-    viewModel.getSeriesVideosById(id)
-    val seriesVideos = viewModel.getSeriesVideosById.collectAsState().value
+fun AllSeriesVideosScreen(TMDBViewModel: TMDBViewModel, id:Int, goBack:()->Unit) {
+    TMDBViewModel.getSeriesVideosById(id)
+    val seriesVideos = TMDBViewModel.getSeriesVideosById.collectAsState().value
     Box(
         modifier = Modifier
             .fillMaxSize()

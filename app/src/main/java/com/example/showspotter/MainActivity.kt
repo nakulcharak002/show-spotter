@@ -43,9 +43,11 @@ import com.example.showspotter.screens.SeriesTabScreen
 import com.example.showspotter.screens.SignUpDetailsScreen
 import com.example.showspotter.screens.SignUpScreen
 import com.example.showspotter.screens.WatchlistScreen
-import com.example.showspotter.tmdbMVVM.Repository
-import com.example.showspotter.tmdbMVVM.ViewModalFactory
-import com.example.showspotter.tmdbMVVM.ViewModel
+import com.example.showspotter.repositories.TMDBRepository
+import com.example.showspotter.screens.PremiumTabScreen
+import com.example.showspotter.screens.SettingTabScreen
+import com.example.showspotter.viewmodel_factories.TMDBViewModalFactory
+import com.example.showspotter.viewmodels.TMDBViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.collections.listOf
@@ -57,20 +59,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-                val repository by lazy {
-                    Repository()
+                val TMDBRepository by lazy {
+                    TMDBRepository()
                 }
-                val viewModel: ViewModel by viewModels {
-                    ViewModalFactory(repository)
+                val TMDBViewModel: TMDBViewModel by viewModels {
+                    TMDBViewModalFactory(TMDBRepository)
                 }
-                MyApp(viewModel)
+                MyApp(TMDBViewModel)
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MyApp(viewModel: ViewModel) {
+fun MyApp(TMDBViewModel: TMDBViewModel) {
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
         val databaseReference = FirebaseDatabase.getInstance().reference
         val navController = rememberNavController()
@@ -153,7 +155,7 @@ fun MyApp(viewModel: ViewModel) {
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
                 popExitTransition = { fasterExitTransition() }) {
-                SignUpDetailsScreen(viewModel,databaseReference,auth, signSuccessGoToLoginScreen = {
+                SignUpDetailsScreen(TMDBViewModel,databaseReference,auth, signSuccessGoToLoginScreen = {
                     navController.navigate("loginscreen")
                 })
             }
@@ -165,7 +167,7 @@ fun MyApp(viewModel: ViewModel) {
                 popExitTransition = { fasterExitTransition() }
 
             ) {
-                HomeScreen(navController,viewModel = viewModel,
+                HomeScreen(navController,TMDBViewModel = TMDBViewModel,
                     goToSeriesDescScreen = { id ->
                         navController.navigate("seriesdescscreen/$id")
 
@@ -199,7 +201,11 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToProfileScreen = {
                         navController.navigate("profilescreen")
-                    })
+                    },
+                    goToSettingTabScreen = {
+                        navController.navigate("settingtabscreen")
+                    }
+                )
             }
 
             composable("moviedescscreen/{id}",
@@ -213,12 +219,52 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                MovieDescScreen(databaseReference,auth,viewModel = viewModel,id= id, goToBackStack = {
+                MovieDescScreen(databaseReference,auth,TMDBViewModel = TMDBViewModel,id= id, goToBackStack = {
                     navController.popBackStack()
                 },
                     goToAllMovieVideosScreen = {
                         navController.navigate("allmovievideosscreen/$it")
                     })
+            }
+
+            composable("settingtabscreen"){
+                SettingTabScreen(
+                    navController,
+                    goToHomeScreen = {
+                        val currentDestination =
+                            navController.currentBackStackEntry?.destination?.route
+                        if (currentDestination != "homescreen") {
+                            navController.navigate("homescreen")
+                        }
+                    },
+                    goToMovieTabScreen = {
+                        val currentDestination =
+                            navController.currentBackStackEntry?.destination?.route
+                        if (currentDestination != "movietabscreen") {
+                            navController.navigate("movietabscreen")
+                        }
+                    },
+                    goToSeriesTabScreen = {
+                        val currentDestination =
+                            navController.currentBackStackEntry?.destination?.route
+                        if (currentDestination != "seriestabscreen") {
+                            navController.navigate("seriestabscreen")
+                        }
+                    },
+                    goToSearchScreen = {
+                        navController.navigate("searchscreen")
+                    },
+                    goToProfileScreen = {
+                        navController.navigate("profilescreen")
+                    },
+                    goToSettingTabScreen = {
+                        val currentDestination =
+                            navController.currentBackStackEntry?.destination?.route
+                        if (currentDestination != "settingtabscreen") {
+                            navController.navigate("settingtabscreen")
+                        }
+                    }
+                )
             }
 
 
@@ -234,13 +280,14 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                SeriesDescScreen(databaseReference,auth,viewModel = viewModel, id, goToBackStack = {
+                SeriesDescScreen(databaseReference,auth,TMDBViewModel = TMDBViewModel, id, goToBackStack = {
                     navController.popBackStack()
                 }, goToAllVideosScreen = {
                     navController.navigate("allseriesvideosscreen/$it")
                 })
             }
-            composable("allseriesvideosscreen/{id}",
+
+            composable("allseriesvideosscreen/{id}", //receiving id
                 enterTransition = { fasterEnterTransition() },
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
@@ -251,7 +298,7 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                AllSeriesVideosScreen(viewModel, id, goBack = {
+                AllSeriesVideosScreen(TMDBViewModel, id, goBack = {
                     navController.popBackStack()
                 })
             }
@@ -267,7 +314,7 @@ fun MyApp(viewModel: ViewModel) {
             ) {
                 val navBackStackEntry = it
                 val id = navBackStackEntry.arguments?.getInt("id") ?: -1
-                AllMovieVideosScreen(viewModel, id, goBack = {
+                AllMovieVideosScreen(TMDBViewModel, id, goBack = {
                     navController.popBackStack()
                 })
             }
@@ -277,7 +324,7 @@ fun MyApp(viewModel: ViewModel) {
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
                 popExitTransition = { fasterExitTransition() }) {
-                MovieTabScreen(navController,viewModel, goToHomeScreen = {
+                MovieTabScreen(navController,TMDBViewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
                         navController.navigate("homescreen")
@@ -301,7 +348,11 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToProfileScreen = {
                         navController.navigate("profilescreen")
-                    })
+                    },
+                    goToSettingTabScreen = {
+                        navController.navigate("settingtabscreen")
+                    }
+                )
             }
 
             composable("seriestabscreen",
@@ -309,7 +360,7 @@ fun MyApp(viewModel: ViewModel) {
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
                 popExitTransition = { fasterExitTransition() }) {
-                SeriesTabScreen(navController,viewModel, goToHomeScreen = {
+                SeriesTabScreen(navController,TMDBViewModel, goToHomeScreen = {
                     val currentDestination = navController.currentBackStackEntry?.destination?.route
                     if (currentDestination != "homescreen") {
                         navController.navigate("homescreen")
@@ -337,7 +388,11 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToProfileScreen = {
                         navController.navigate("profilescreen")
-                    })
+                    },
+                    goToSettingTabScreen = {
+                        navController.navigate("settingtabscreen")
+                    }
+                )
             }
 
             composable("searchscreen",
@@ -345,7 +400,7 @@ fun MyApp(viewModel: ViewModel) {
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
                 popExitTransition = { fasterExitTransition() }) {
-                SearchingScreen(viewModel, goToMovieDescScreen = { id ->
+                SearchingScreen(TMDBViewModel, goToMovieDescScreen = { id ->
                     navController.navigate("moviedescscreen/$id")
                 },
                     goToSeriesDescScreen = { id ->
@@ -374,7 +429,20 @@ fun MyApp(viewModel: ViewModel) {
                     },
                     goToWatchlistScreen = {
                         navController.navigate("watchlist")
-                    })
+                    },
+                    goToPremiumTabScreen = {
+                        navController.navigate("premiumtabscreen")
+                    }
+                    )
+            }
+
+            composable("premiumtabscreen"){
+                PremiumTabScreen(
+                    navController,
+                    goBack = {
+                        navController.popBackStack()
+                    }
+                )
             }
 
             composable("favouritescreen",
@@ -382,7 +450,7 @@ fun MyApp(viewModel: ViewModel) {
                 exitTransition = { fasterExitTransition() },
                 popEnterTransition = { fasterEnterTransition() },
                 popExitTransition = { fasterExitTransition() }){
-                FavouriteScreen(viewModel,auth,databaseReference,goToBackStack={
+                FavouriteScreen(TMDBViewModel,auth,databaseReference,goToBackStack={
                     navController.popBackStack()
                 },goToMovieDescScreen = { id ->
                     navController.navigate("moviedescscreen/$id")

@@ -1,7 +1,6 @@
 package com.example.showspotter.screens
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,9 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -32,17 +29,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
 import com.example.showspotter.R
 import com.google.firebase.database.DatabaseReference
+import androidx.compose.ui.draw.clip
+import coil3.compose.rememberAsyncImagePainter
 
 
 @Composable
@@ -53,7 +50,8 @@ fun Profile(
     goToOnBoardingScreen: () -> Unit,
     goToBackStack: () -> Unit,
     goToFavouriteScreen:()->Unit,
-    goToWatchlistScreen:()->Unit
+    goToWatchlistScreen:()->Unit,
+    goToPremiumTabScreen:()->Unit
 ) {
     //if already login then show logout button
     var name by remember { //username
@@ -133,6 +131,30 @@ fun Profile(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Image(
+                    painterResource(id = R.drawable.premium),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth(0.2f)
+                        .size(40.dp)
+                )
+                Text(
+                    "Get Premium Features",
+                    color = Color(0xFFE0E0E0),
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily(Font(R.font.interfont)),
+                    modifier = Modifier.fillMaxWidth(0.8f)
+                )
+            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .height(70.dp)
+                    .background(Color(0xFF2e2d2d), shape = RoundedCornerShape(10.dp)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Image(
                     painterResource(id = R.drawable.list),
                     contentDescription = null,
                     modifier = Modifier
@@ -170,28 +192,33 @@ fun Profile(
         }
 
     } else {
-            val dbRef = databaseReference.child("users").child(auth.currentUser!!.uid)
-            dbRef.child("username").get()
-                .addOnSuccessListener { snapshot ->
-                    val username = snapshot.getValue(String::class.java)
-                    if (username != null) {
-                        name = username
+        val dbRef = databaseReference.child("users").child(auth.currentUser!!.uid)
+        dbRef.child("username").get()
+            .addOnSuccessListener { snapshot ->
+                val username = snapshot.getValue(String::class.java)
+                if (!username.isNullOrEmpty()) {
+                    // If username exists in database, show it
+                    name = username
+                } else {
+                    // If username doesn't exist, use Gmail Profile Name
+                    val googleName = auth.currentUser?.displayName
+                    if (!googleName.isNullOrEmpty()) {
+                        name = googleName
                     } else {
-                        Toast.makeText(
-                            context,
-                            "Username not found in database",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // If Gmail Profile Name also missing, show default
+                        name = "Unknown User"
                     }
                 }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(
-                        context,
-                        "Error fetching username: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+            }
+            .addOnFailureListener {
+                // If Firebase fails, fallback to Gmail Name
+                val googleName = auth.currentUser?.displayName
+                if (!googleName.isNullOrEmpty()) {
+                    name = googleName
+                } else {
+                    name = "Unknown User"
                 }
+            }
 
 
         Box(
@@ -218,7 +245,7 @@ fun Profile(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.back), contentDescription =
-                        "back",
+                            "back",
                         modifier = Modifier
                             .padding(start = 13.dp)
                             .size(16.dp)
@@ -237,11 +264,32 @@ fun Profile(
                         .background(Color(0xFF2e2d2d)),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painterResource(R.drawable.appicon),
-                        contentDescription = null,
-                        modifier = Modifier.size(80.dp)
-                    )
+                    val user = auth.currentUser
+                    val profilePicUrl = user?.photoUrl
+
+                    if (user != null && profilePicUrl != null) {
+                        // Show Gmail DP if signed in with Gmail OR Firebase DP if available
+                        Image(
+                            painter = rememberAsyncImagePainter(model = profilePicUrl),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(90.dp)
+                                .clip(RoundedCornerShape(50.dp))
+                        )
+                    } else {
+                        // Show App Icon if no login or no profile picture available
+                        Image(
+                            painterResource(R.drawable.appicon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(RoundedCornerShape(50.dp))
+                        )
+                    }
+
+
+                    Spacer(modifier = Modifier.size(16.dp))
+
                     Column {
                         Text(
                             "Hello,",
@@ -269,7 +317,6 @@ fun Profile(
                                 .height(70.dp)
                                 .background(Color(0xFF2e2d2d), shape = RoundedCornerShape(10.dp))
                                 .clickable(onClick = {
-                                    //goToFavScreen
                                     goToFavouriteScreen()
                                 }),
                             verticalAlignment = Alignment.CenterVertically,
@@ -342,6 +389,48 @@ fun Profile(
                                     .size(20.dp)
                             )
                         }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 10.dp, end = 10.dp)
+                                .height(70.dp)
+                                .background(Color(0xFF2e2d2d), shape = RoundedCornerShape(10.dp))
+                                .clickable(onClick = {
+                                    goToPremiumTabScreen()
+                                }),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(start = 10.dp),
+                                horizontalArrangement = Arrangement.spacedBy(15.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painterResource(id = R.drawable.premium),
+                                    contentDescription = null,
+                                    Modifier.size(40.dp)
+                                )
+                                Text(
+                                    "Premium",
+                                    fontSize = 18.sp,
+                                    fontFamily = FontFamily(Font(R.font.interbold)),
+                                    color = Color(0xFFE0E0E0)
+                                )
+                            }
+                            Image(
+                                painterResource(id = R.drawable.back), contentDescription = null,
+                                Modifier
+                                    .padding(end = 10.dp)
+                                    .rotate(180f)
+                                    .size(20.dp)
+                            )
+                        }
+
+
                     }
                     Button(
                         onClick = {

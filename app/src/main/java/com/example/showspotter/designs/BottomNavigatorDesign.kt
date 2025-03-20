@@ -29,7 +29,13 @@ import androidx.navigation.NavController
 import com.example.showspotter.R
 
 @Composable
-fun BottomNavigatorDesign(navController: NavController,goToHomeScreen:()->Unit,goToMovieTabScreen:()->Unit,goToSeriesTabScreen:()->Unit) {
+fun BottomNavigatorDesign(
+    navController: NavController,
+    goToHomeScreen: () -> Unit,
+    goToMovieTabScreen: () -> Unit,
+    goToSeriesTabScreen: () -> Unit,
+    goToSettingTabScreen:()->Unit
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd
@@ -236,10 +242,11 @@ fun BottomNavigatorDesign(navController: NavController,goToHomeScreen:()->Unit,g
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(vertical = 10.dp)
-                    .background(Color.Transparent, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp).clickable(
+                    .background(color = if(navController.currentDestination?.route == "settingtabscreen") Color(0xFF72B2D5) else Color.Transparent, shape = RoundedCornerShape(10.dp))
+                    .padding(10.dp)
+                    .clickable(
                         onClick = {
-
+                            goToSettingTabScreen()
                         }
                     )
             ) {

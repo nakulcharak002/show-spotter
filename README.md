@@ -30,12 +30,6 @@
 
 ---
 
-## Designs
-![Alt text](app/src/main/res/drawable/app_interface.png)
-
-## App Workflow
-![Alt text](app/src/main/res/drawable/app_workflow.png)
-
 
 ## Technical Details
 
@@ -116,9 +110,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 For any queries or suggestions, feel free to reach out:
-
-- **GitHub:** [ivikashgorai](https://github.com/ivikashgorai)
-- **Email:** [vikashwork321@gmail.com]
 
 ---
 

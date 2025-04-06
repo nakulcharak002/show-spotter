@@ -79,17 +79,17 @@ fun UserTemplate(TMDBViewModel: TMDBViewModel, isMovie: Boolean, id:Int, auth: F
         }
     }
     var watchbg: Color = Color.Transparent
-        if(watchlist) {
-            watchbg = Color(0xFF103661)
-        }
+    if (watchlist) {
+        watchbg = Color(0xFF103661)
+    }
 
 
 
     //addtolist
     var addbg: Color = Color.Transparent
-        if(addToList) {
-            addbg = Color(0xFF103661)
-        }
+    if (addToList) {
+        addbg = Color(0xFF103661)
+    }
 
 
 
@@ -109,9 +109,9 @@ fun UserTemplate(TMDBViewModel: TMDBViewModel, isMovie: Boolean, id:Int, auth: F
     }
 
     var favbg: Color = Color.Transparent
-        if(favourite) {
-            favbg = Color(0xFF103661)
-        }
+    if (favourite) {
+        favbg = Color(0xFF103661)
+    }
 
 
 

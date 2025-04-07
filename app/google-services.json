@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337261500979",
+    "project_id": "movieradar-8b2fb",
+    "storage_bucket": "movieradar-8b2fb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337261500979:android:2c6b2e40a35f32478f6146",
+        "android_client_info": {
+          "package_name": "com.example.showspotter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAImAHAPYQy9V7mJi1HwZoJGs6BXKOvKzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
